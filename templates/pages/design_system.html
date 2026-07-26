@@ -1,0 +1,618 @@
+{% extends "pages/base.html" %}
+
+{% block title %}Design System — COOP-CA AMIFOND{% endblock %}
+
+{% block extra_css %}
+
+<link rel="stylesheet" href="/static/pages/css/ds.css">
+{% endblock %}
+
+{% block content %}
+
+{# ── Hero ────────────────────────────────────────────────────────────────────── #}
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+    <div>
+        <h2 style="margin: 0 0 0.25rem;">Design System</h2>
+        <p style="margin: 0; color: var(--text-muted);">Tokens, composants et utilitaires CSS d'AMIFOND</p>
+    </div>
+    <button id="ds-theme-btn" onclick="toggleDSTheme()" style="display: flex; align-items: center; gap: 0.5rem; background: var(--primary-color); color: #fff; border: none; border-radius: var(--border-radius-md); padding: 0.5rem 1.1rem; font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: opacity 0.2s;">
+        <svg id="ds-theme-icon" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+        Mode Clair
+    </button>
+</div>
+
+{# ── Design Kit Preview — dark dotted panel ───────────────────────────────────── #}
+<div id="ds-preview" class="ds-dark" style="border-radius: var(--border-radius-lg); margin-bottom: 3rem; overflow: hidden;">
+    <div class="ds-dot-bg" style="padding: 2rem;">
+
+        <p class="ds-label" style="margin-bottom: 1.5rem;">KIT VISUEL — COOP-CA AMIFOND</p>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1.4fr; gap: 1.5rem;">
+
+            {# ── Col 1 : Colour Swatches ── #}
+            <div style="display: flex; flex-direction: column; gap: 1rem;">
+
+                {# Primary swatch + shade strip #}
+                <div class="ds-panel">
+                    <div style="height: 72px; background: #1a5276; border-radius: 0.5rem 0.5rem 0 0; display: flex; justify-content: space-between; align-items: flex-end; padding: 0.65rem 0.75rem;">
+                        <span style="font-size: 0.8rem; font-weight: 700; color: #fff;">Primary</span>
+                        <span style="font-size: 0.75rem; color: rgba(255,255,255,0.7);">#1a5276</span>
+                    </div>
+                    <div style="display: flex; height: 28px; border-radius: 0 0 0.5rem 0.5rem; overflow: hidden;">
+                        <div style="flex:1; background:#1a5276; filter:brightness(0.2)"></div>
+                        <div style="flex:1; background:#1a5276; filter:brightness(0.4)"></div>
+                        <div style="flex:1; background:#1a5276; filter:brightness(0.6)"></div>
+                        <div style="flex:1; background:#1a5276; filter:brightness(0.8)"></div>
+                        <div style="flex:1; background:#1a5276; filter:brightness(1.0)"></div>
+                        <div style="flex:1; background:#1a5276; filter:brightness(1.2)"></div>
+                        <div style="flex:1; background:#1a5276; filter:brightness(1.4)"></div>
+                        <div style="flex:1; background:#1a5276; filter:brightness(1.6)"></div>
+                        <div style="flex:1; background:#1a5276; filter:brightness(1.8)"></div>
+                        <div style="flex:1; background:#1a5276; filter:brightness(2.0)"></div>
+                    </div>
+                </div>
+
+                {# Secondary swatch #}
+                <div class="ds-panel">
+                    <div style="height: 72px; background: #d4ac0d; border-radius: 0.5rem 0.5rem 0 0; display: flex; justify-content: space-between; align-items: flex-end; padding: 0.65rem 0.75rem;">
+                        <span style="font-size: 0.8rem; font-weight: 700; color: #fff;">Secondary</span>
+                        <span style="font-size: 0.75rem; color: rgba(255,255,255,0.6);">#d4ac0d</span>
+                    </div>
+                    <div style="display: flex; height: 28px; border-radius: 0 0 0.5rem 0.5rem; overflow: hidden;">
+                        <div style="flex:1; background:#d4ac0d; filter:brightness(0.4)"></div>
+                        <div style="flex:1; background:#d4ac0d; filter:brightness(0.6)"></div>
+                        <div style="flex:1; background:#d4ac0d; filter:brightness(0.8)"></div>
+                        <div style="flex:1; background:#d4ac0d; filter:brightness(0.9)"></div>
+                        <div style="flex:1; background:#d4ac0d; filter:brightness(1.0)"></div>
+                        <div style="flex:1; background:#d4ac0d; filter:brightness(1.1)"></div>
+                        <div style="flex:1; background:#d4ac0d; filter:brightness(1.2)"></div>
+                        <div style="flex:1; background:#d4ac0d; filter:brightness(1.3)"></div>
+                        <div style="flex:1; background:#d4ac0d; filter:brightness(1.4)"></div>
+                        <div style="flex:1; background:#d4ac0d; filter:brightness(1.5)"></div>
+                    </div>
+                </div>
+
+                {# Functional swatches — 2×2 grid #}
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem;">
+                    <div class="ds-panel" style="text-align: center; padding: 0.75rem 0.5rem;">
+                        <div style="width: 36px; height: 36px; background: #16a34a; border-radius: 50%; margin: 0 auto 0.4rem;"></div>
+                        <div class="ds-label" style="margin: 0; font-size: 0.68rem;">Success</div>
+                    </div>
+                    <div class="ds-panel" style="text-align: center; padding: 0.75rem 0.5rem;">
+                        <div style="width: 36px; height: 36px; background: #dc2626; border-radius: 50%; margin: 0 auto 0.4rem;"></div>
+                        <div class="ds-label" style="margin: 0; font-size: 0.68rem;">Danger</div>
+                    </div>
+                    <div class="ds-panel" style="text-align: center; padding: 0.75rem 0.5rem;">
+                        <div style="width: 36px; height: 36px; background: #d97706; border-radius: 50%; margin: 0 auto 0.4rem;"></div>
+                        <div class="ds-label" style="margin: 0; font-size: 0.68rem;">Warning</div>
+                    </div>
+                    <div class="ds-panel" style="text-align: center; padding: 0.75rem 0.5rem;">
+                        <div style="width: 36px; height: 36px; background: #2563eb; border-radius: 50%; margin: 0 auto 0.4rem;"></div>
+                        <div class="ds-label" style="margin: 0; font-size: 0.68rem;">Info</div>
+                    </div>
+                </div>
+
+            </div>
+
+            {# ── Col 2 : Typography specimens ── #}
+            <div style="display: flex; flex-direction: column; gap: 1rem;">
+                <div class="ds-panel" style="text-align: center; padding: 2rem 1rem; flex: 1;">
+                    <div class="ds-label" style="text-align: left; margin-bottom: 0.75rem;">TITRE (HEADLINE)</div>
+                    <div style="font-size: 5.5rem; line-height: 1; font-weight: 800; color: var(--ds-typo-headline); letter-spacing: -0.04em; transition: color 0.3s;">Aa</div>
+                    <div class="ds-label" style="margin-top: 0.75rem; font-size: 0.68rem; text-align: left;">800 · clamp(1.75rem, 4vw, 2.75rem)</div>
+                </div>
+                <div class="ds-panel" style="text-align: center; padding: 1.5rem 1rem; flex: 1;">
+                    <div class="ds-label" style="text-align: left; margin-bottom: 0.75rem;">CORPS (BODY)</div>
+                    <div style="font-size: 3.5rem; line-height: 1; font-weight: 400; color: var(--ds-typo-body); transition: color 0.3s;">Aa</div>
+                    <div class="ds-label" style="margin-top: 0.75rem; font-size: 0.68rem; text-align: left;">400 · 1rem · line-height 1.6</div>
+                </div>
+                <div class="ds-panel" style="text-align: center; padding: 1.25rem 1rem; flex: 1;">
+                    <div class="ds-label" style="text-align: left; margin-bottom: 0.75rem;">LIBELLÉ (LABEL)</div>
+                    <div style="font-size: 2.5rem; line-height: 1; font-weight: 500; color: var(--ds-typo-label-swatch); transition: color 0.3s;">Aa</div>
+                    <div class="ds-label" style="margin-top: 0.75rem; font-size: 0.68rem; text-align: left;">500 · 0.875rem · text-muted</div>
+                </div>
+            </div>
+
+            {# ── Col 3 : Components mosaic ── #}
+            <div style="display: flex; flex-direction: column; gap: 1rem;">
+
+                {# Row 1 : Buttons + Search #}
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="ds-panel" style="gap: 0.6rem;">
+                        <div class="ds-label" style="margin-bottom: 0.5rem;">BOUTONS</div>
+                        <div style="display: flex; gap: 0.5rem; margin-bottom: 0.5rem;">
+                            <div style="flex:1; background:#1a5276; color:#fff; border-radius:0.25rem; padding:0.4rem 0.5rem; font-size:0.78rem; font-weight:600; text-align:center;">Principal</div>
+                            <div style="flex:1; background:#d4ac0d; color:#fff; border-radius:0.25rem; padding:0.4rem 0.5rem; font-size:0.78rem; font-weight:600; text-align:center;">Sec.</div>
+                        </div>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <div style="flex:1; background:#fff; color:#333333; border-radius:0.25rem; padding:0.4rem 0.5rem; font-size:0.78rem; font-weight:600; text-align:center;">Inversé</div>
+                            <div style="flex:1; border:1px solid var(--ds-outline-btn-bd); color:var(--ds-outline-btn-fg); border-radius:0.25rem; padding:0.4rem 0.5rem; font-size:0.78rem; font-weight:600; text-align:center;">Outline</div>
+                        </div>
+                    </div>
+                    <div class="ds-panel" style="justify-content: center;">
+                        <div class="ds-label" style="margin-bottom: 0.5rem;">RECHERCHE</div>
+                        <div style="position: relative;">
+                            <svg style="position:absolute; left:0.6rem; top:50%; transform:translateY(-50%); width:14px; height:14px; color:#94a3b8;" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+                            </svg>
+                            <div style="background: var(--ds-search-bg); border: 1px solid var(--ds-search-border); border-radius: 0.35rem; padding: 0.45rem 0.6rem 0.45rem 2rem; font-size: 0.8rem; color: var(--ds-search-text);">Rechercher…</div>
+                        </div>
+                    </div>
+                </div>
+
+                {# Row 2 : Progress bars + Nav pill #}
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="ds-panel" style="justify-content: center; gap: 0.6rem;">
+                        <div class="ds-label" style="margin-bottom: 0.25rem;">PROGRESSION</div>
+                        <div style="height:6px; background:var(--ds-progress-track); border-radius:3px; overflow:hidden;">
+                            <div style="width:70%; height:100%; background:#1a5276;"></div>
+                        </div>
+                        <div style="height:6px; background:var(--ds-progress-track); border-radius:3px; overflow:hidden;">
+                            <div style="width:100%; height:100%; background:#94a3b8;"></div>
+                        </div>
+                        <div style="height:6px; background:var(--ds-progress-track); border-radius:3px; overflow:hidden; width:55%;">
+                            <div style="width:100%; height:100%; background:#1a5276; opacity:0.4;"></div>
+                        </div>
+                    </div>
+                    <div class="ds-panel" style="align-items: center; justify-content: center;">
+                        <div class="ds-label" style="margin-bottom: 0.75rem;">NAVIGATION</div>
+                        <div style="display: flex; gap: 0.75rem; background: var(--ds-navpill-bg); border-radius: 999px; padding: 0.4rem 0.75rem;">
+                            <div style="width: 28px; height: 28px; background: #1a5276; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                <svg width="13" height="13" fill="none" stroke="#fff" stroke-width="2" viewBox="0 0 24 24"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+                            </div>
+                            <div style="width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; opacity: 0.5; color: var(--ds-navpill-icon);">
+                                <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                            </div>
+                            <div style="width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; opacity: 0.5; color: var(--ds-navpill-icon);">
+                                <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {# Row 3 : Badges + Icon actions #}
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="ds-panel">
+                        <div class="ds-label" style="margin-bottom: 0.75rem;">BADGES</div>
+                        <div style="display: flex; flex-wrap: wrap; gap: 0.4rem;">
+                            <span style="background:#1a5276; color:#fff; font-size:0.7rem; font-weight:700; padding:0.2rem 0.55rem; border-radius:0.25rem;">Essentiel</span>
+                            <span style="background:#e8f5e9; color:#2e7d32; font-size:0.7rem; font-weight:700; padding:0.2rem 0.55rem; border-radius:0.25rem;">Stable</span>
+                            <span style="background:#fff3e0; color:#bf360c; font-size:0.7rem; font-weight:700; padding:0.2rem 0.55rem; border-radius:0.25rem;">Avancé</span>
+                            <span style="background:var(--ds-neutral-badge-bg); color:var(--ds-neutral-badge-fg); font-size:0.7rem; font-weight:700; padding:0.2rem 0.55rem; border-radius:0.25rem; border:1px solid var(--ds-neutral-badge-bd);">Neutre</span>
+                        </div>
+                    </div>
+                    <div class="ds-panel">
+                        <div class="ds-label" style="margin-bottom: 0.75rem;">ACTIONS ICÔNES</div>
+                        <div style="display: flex; gap: 0.5rem; align-items: center;">
+                            <div style="width:32px; height:32px; background:#1a5276; border-radius:0.35rem; display:flex; align-items:center; justify-content:center;">
+                                <svg width="14" height="14" fill="none" stroke="#fff" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                            </div>
+                            <div style="width:32px; height:32px; background:var(--ds-icon-ghost-bg); color:var(--ds-icon-ghost-stroke); border-radius:0.35rem; display:flex; align-items:center; justify-content:center;">
+                                <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>
+                            </div>
+                            <div style="width:32px; height:32px; background:#dc2626; border-radius:0.35rem; display:flex; align-items:center; justify-content:center;">
+                                <svg width="14" height="14" fill="none" stroke="#fff" stroke-width="2" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                            </div>
+                            <div style="width:32px; height:32px; background:#16a34a; border-radius:0.35rem; display:flex; align-items:center; justify-content:center;">
+                                <svg width="14" height="14" fill="none" stroke="#fff" stroke-width="2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {# Row 4 : Token tokens preview #}
+                <div class="ds-panel">
+                    <div class="ds-label" style="margin-bottom: 0.75rem;">OMBRES & RAYONS</div>
+                    <div style="display: flex; gap: 1rem; align-items: flex-end;">
+                        <div style="width:50px; height:34px; background:var(--ds-panel-bg); border:1px solid var(--ds-panel-border); border-radius:0.25rem; box-shadow:0 1px 3px rgba(26,82,118,0.18);"></div>
+                        <div style="width:50px; height:34px; background:var(--ds-panel-bg); border:1px solid var(--ds-panel-border); border-radius:0.5rem; box-shadow:0 6px 16px rgba(26,82,118,0.22);"></div>
+                        <div style="width:50px; height:34px; background:var(--ds-panel-bg); border:1px solid var(--ds-panel-border); border-radius:1rem; box-shadow:0 12px 28px rgba(26,82,118,0.28);"></div>
+                        <div style="width:50px; height:34px; background:#1a5276; border-radius:1rem; box-shadow:0 0 20px rgba(26,82,118,0.6);"></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{# ── 1. COULEURS ──────────────────────────────────────────────────────────────── #}
+<section style="margin-bottom: 3rem;">
+    <h3 style="margin-bottom: 1.5rem; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem;">Couleurs</h3>
+
+    <h5 style="color: var(--text-muted); margin-bottom: 1rem;">Couleurs principales</h5>
+    <div style="display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: 2rem;">
+        {% for name, bg, label in colors_brand %}
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 0.5rem;">
+            <div style="width: 80px; height: 80px; background: {{ bg }}; border-radius: var(--border-radius-md); border: 1px solid var(--border-color); box-shadow: var(--shadow-sm);"></div>
+            <span style="font-size: 0.8rem; font-weight: 600; color: var(--body-color);">{{ name }}</span>
+            <span style="font-size: 0.7rem; color: var(--text-muted); font-family: monospace;">{{ label }}</span>
+        </div>
+        {% endfor %}
+    </div>
+
+    <h5 style="color: var(--text-muted); margin-bottom: 1rem;">Couleurs fonctionnelles</h5>
+    <div style="display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: 2rem;">
+        {% for name, bg, label in colors_functional %}
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 0.5rem;">
+            <div style="width: 80px; height: 80px; background: {{ bg }}; border-radius: var(--border-radius-md); border: 1px solid var(--border-color); box-shadow: var(--shadow-sm);"></div>
+            <span style="font-size: 0.8rem; font-weight: 600; color: var(--body-color);">{{ name }}</span>
+            <span style="font-size: 0.7rem; color: var(--text-muted); font-family: monospace;">{{ label }}</span>
+        </div>
+        {% endfor %}
+    </div>
+
+    <h5 style="color: var(--text-muted); margin-bottom: 1rem;">Couleurs de surface & texte</h5>
+    <div style="display: flex; flex-wrap: wrap; gap: 1rem;">
+        {% for name, bg, label in colors_surface %}
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 0.5rem;">
+            <div style="width: 80px; height: 80px; background: {{ bg }}; border-radius: var(--border-radius-md); border: 1px solid var(--border-color); box-shadow: var(--shadow-sm);"></div>
+            <span style="font-size: 0.8rem; font-weight: 600; color: var(--body-color);">{{ name }}</span>
+            <span style="font-size: 0.7rem; color: var(--text-muted); font-family: monospace;">{{ label }}</span>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+{# ── 2. TYPOGRAPHIE ───────────────────────────────────────────────────────────── #}
+<section style="margin-bottom: 3rem;">
+    <h3 style="margin-bottom: 1.5rem; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem;">Typographie</h3>
+
+    <div class="card" style="margin-bottom: 1.5rem;">
+        <div class="card-header"><h4 style="margin:0; color:var(--primary-color);">Headings</h4></div>
+        <div class="card-body">
+            <h1>Heading 1 — 2.5rem</h1>
+            <h2>Heading 2 — 2rem</h2>
+            <h3>Heading 3 — 1.75rem</h3>
+            <h4>Heading 4 — 1.5rem</h4>
+            <h5>Heading 5 — 1.25rem</h5>
+            <h6>Heading 6 — 1rem</h6>
+        </div>
+    </div>
+
+    <div class="card" style="margin-bottom: 1.5rem;">
+        <div class="card-header"><h4 style="margin:0; color:var(--primary-color);">Corps de texte & utilitaires</h4></div>
+        <div class="card-body">
+            <p>Texte standard — font-size: 16px, line-height: 1.6, color: <code>--body-color</code></p>
+            <p class="text-muted">Texte atténué — <code>.text-muted</code></p>
+            <p class="text-primary">Texte primaire — <code>.text-primary</code></p>
+            <p class="text-secondary">Texte secondaire — <code>.text-secondary</code></p>
+            <p style="background: var(--secondary-color); padding: 0.5rem 1rem; border-radius: var(--border-radius-sm); display: inline-block;">
+                <span class="text-white">Texte blanc — <code style="color: inherit;">.text-white</code></span>
+            </p>
+            <p style="margin-top: 1rem;">
+                <code style="background: var(--primary-light); padding: 0.15rem 0.5rem; border-radius: var(--border-radius-sm); font-size: 0.875rem;">code inline</code>
+                — police système monospace
+            </p>
+        </div>
+    </div>
+</section>
+
+{# ── 3. BOUTONS ───────────────────────────────────────────────────────────────── #}
+<section style="margin-bottom: 3rem;">
+    <h3 style="margin-bottom: 1.5rem; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem;">Boutons</h3>
+
+    <div class="card" style="margin-bottom: 1.5rem;">
+        <div class="card-header"><h4 style="margin:0; color:var(--primary-color);">Variantes remplies</h4></div>
+        <div class="card-body" style="display: flex; flex-wrap: wrap; gap: 1rem; align-items: center;">
+            <a href="#" class="btn btn-primary">btn-primary</a>
+            <a href="#" class="btn btn-secondary">btn-secondary</a>
+            <a href="#" class="btn btn-white">btn-white</a>
+            <a href="#" class="btn btn-black">btn-black</a>
+        </div>
+    </div>
+
+    <div class="card" style="margin-bottom: 1.5rem;">
+        <div class="card-header"><h4 style="margin:0; color:var(--primary-color);">Variantes outline</h4></div>
+        <div class="card-body" style="display: flex; flex-wrap: wrap; gap: 1rem; align-items: center;">
+            <a href="#" class="btn btn-outline-primary">btn-outline-primary</a>
+            <a href="#" class="btn btn-outline-secondary">btn-outline-secondary</a>
+            <a href="#" class="btn btn-outline-black">btn-outline-black</a>
+            <div style="background: var(--secondary-color); padding: 0.75rem 1rem; border-radius: var(--border-radius-md);">
+                <a href="#" class="btn btn-outline-white">btn-outline-white</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header"><h4 style="margin:0; color:var(--primary-color);">Tailles</h4></div>
+        <div class="card-body" style="display: flex; flex-wrap: wrap; gap: 1rem; align-items: center;">
+            <a href="#" class="btn btn-primary btn-lg">btn-lg</a>
+            <a href="#" class="btn btn-primary">Default</a>
+            <a href="#" class="btn btn-primary btn-sm">btn-sm</a>
+        </div>
+    </div>
+</section>
+
+{# ── 4. CARDS ─────────────────────────────────────────────────────────────────── #}
+<section style="margin-bottom: 3rem;">
+    <h3 style="margin-bottom: 1.5rem; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem;">Cards</h3>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;">
+
+        <div class="card">
+            <div class="card-header">
+                <h4 style="margin:0; color:var(--primary-color);">card-header</h4>
+            </div>
+            <div class="card-body">
+                <p style="margin:0;">Contenu dans <code>.card-body</code> — padding standard <code>--spacing-lg</code>.</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h4 style="margin:0; color:var(--primary-color);">Header + Footer</h4>
+            </div>
+            <div class="card-body">
+                <p style="margin:0;">Corps de la card avec du contenu.</p>
+            </div>
+            <div class="card-footer" style="font-size: 0.875rem; color: var(--text-muted);">
+                card-footer — fond <code>--primary-light</code>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h4 style="margin:0; color:var(--primary-color);">Card avec actions</h4>
+            </div>
+            <div class="card-body">
+                <p>Texte descriptif de la card.</p>
+                <div style="display: flex; gap: 0.5rem;">
+                    <a href="#" class="btn btn-primary btn-sm">Confirmer</a>
+                    <a href="#" class="btn btn-outline-secondary btn-sm">Annuler</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+{# ── 5. BADGES ────────────────────────────────────────────────────────────────── #}
+<section style="margin-bottom: 3rem;">
+    <h3 style="margin-bottom: 1.5rem; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem;">Badges</h3>
+    <div class="card">
+        <div class="card-body" style="display: flex; flex-wrap: wrap; gap: 1rem; align-items: center;">
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 0.5rem;">
+                <span class="badge badge-primary">Essentiel</span>
+                <code style="font-size:0.7rem; color:var(--text-muted);">.badge-primary</code>
+            </div>
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 0.5rem;">
+                <span class="badge badge-warning">Avancé</span>
+                <code style="font-size:0.7rem; color:var(--text-muted);">.badge-warning</code>
+            </div>
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 0.5rem;">
+                <span class="badge badge-neutral">Intermédiaire</span>
+                <code style="font-size:0.7rem; color:var(--text-muted);">.badge-neutral</code>
+            </div>
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 0.5rem;">
+                <span class="badge badge-success">Stable</span>
+                <code style="font-size:0.7rem; color:var(--text-muted);">.badge-success</code>
+            </div>
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 0.5rem;">
+                <span style="background:#e3f2fd; color:#1565c0; padding:0.15rem 0.5rem; border-radius:0.25rem; font-size:0.75rem; font-weight:700;">GET</span>
+                <code style="font-size:0.7rem; color:var(--text-muted);">HTTP GET</code>
+            </div>
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 0.5rem;">
+                <span style="background:#e8f5e9; color:#2e7d32; padding:0.15rem 0.5rem; border-radius:0.25rem; font-size:0.75rem; font-weight:700;">POST</span>
+                <code style="font-size:0.7rem; color:var(--text-muted);">HTTP POST</code>
+            </div>
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 0.5rem;">
+                <span style="background:#fff3e0; color:#bf360c; padding:0.15rem 0.5rem; border-radius:0.25rem; font-size:0.75rem; font-weight:700;">PATCH</span>
+                <code style="font-size:0.7rem; color:var(--text-muted);">HTTP PATCH</code>
+            </div>
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 0.5rem;">
+                <span style="background:#fce4ec; color:#c62828; padding:0.15rem 0.5rem; border-radius:0.25rem; font-size:0.75rem; font-weight:700;">DELETE</span>
+                <code style="font-size:0.7rem; color:var(--text-muted);">HTTP DELETE</code>
+            </div>
+        </div>
+    </div>
+</section>
+
+{# ── 6. ALERTES ───────────────────────────────────────────────────────────────── #}
+<section style="margin-bottom: 3rem;">
+    <h3 style="margin-bottom: 1.5rem; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem;">Alertes</h3>
+
+    <div class="alert alert-success"><strong>Succès :</strong> Opération effectuée avec succès. <code>.alert-success</code></div>
+    <div class="alert alert-danger"><strong>Erreur :</strong> Une erreur est survenue. <code>.alert-danger</code></div>
+    <div class="alert alert-warning"><strong>Attention :</strong> Vérifiez les informations saisies. <code>.alert-warning</code></div>
+    <div class="alert alert-info"><strong>Information :</strong> Une mise à jour est disponible. <code>.alert-info</code></div>
+</section>
+
+{# ── 7. FORMULAIRES ───────────────────────────────────────────────────────────── #}
+<section style="margin-bottom: 3rem;">
+    <h3 style="margin-bottom: 1.5rem; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem;">Formulaires</h3>
+
+    <div class="card">
+        <div class="card-header"><h4 style="margin:0; color:var(--primary-color);">Champs de saisie</h4></div>
+        <div class="card-body">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem;">
+
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label class="form-label" for="ds-text">Text input</label>
+                    <input type="text" id="ds-text" class="form-control" placeholder="Placeholder…">
+                </div>
+
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label class="form-label" for="ds-email">Email input</label>
+                    <input type="email" id="ds-email" class="form-control" placeholder="email@exemple.com">
+                </div>
+
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label class="form-label" for="ds-password">Password input</label>
+                    <input type="password" id="ds-password" class="form-control" placeholder="••••••••">
+                </div>
+
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label class="form-label" for="ds-select">Select</label>
+                    <select id="ds-select" class="form-control">
+                        <option>Option 1</option>
+                        <option>Option 2</option>
+                        <option>Option 3</option>
+                    </select>
+                </div>
+
+                <div class="form-group" style="margin-bottom: 0; grid-column: 1 / -1;">
+                    <label class="form-label" for="ds-textarea">Textarea</label>
+                    <textarea id="ds-textarea" class="form-control" rows="3" placeholder="Saisissez un texte…"></textarea>
+                </div>
+
+            </div>
+
+            <div style="display: flex; gap: 0.75rem; margin-top: 1.5rem;">
+                <button type="button" class="btn btn-primary">Valider</button>
+                <button type="button" class="btn btn-outline-secondary">Annuler</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+{# ── 8. OMBRES ────────────────────────────────────────────────────────────────── #}
+<section style="margin-bottom: 3rem;">
+    <h3 style="margin-bottom: 1.5rem; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem;">Ombres</h3>
+
+    <div style="display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end;">
+        {% for name, shadow in shadows %}
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 0.75rem;">
+            <div style="width: 120px; height: 80px; background: var(--white); border-radius: var(--border-radius-md); box-shadow: {{ shadow }}; border: 1px solid var(--border-color);"></div>
+            <code style="font-size: 0.75rem; color: var(--text-muted);">{{ name }}</code>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+{# ── 9. ESPACEMENTS ───────────────────────────────────────────────────────────── #}
+<section style="margin-bottom: 3rem;">
+    <h3 style="margin-bottom: 1.5rem; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem;">Espacements</h3>
+
+    <div class="card">
+        <div class="card-body">
+            <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; align-items: flex-end;">
+                {% for name, size, px in spacings %}
+                <div style="display: flex; flex-direction: column; align-items: center; gap: 0.5rem;">
+                    <div style="width: {{ px }}; height: {{ px }}; background: var(--primary-color); border-radius: var(--border-radius-sm); opacity: 0.8;"></div>
+                    <code style="font-size: 0.7rem; color: var(--text-muted);">{{ name }}</code>
+                    <span style="font-size: 0.7rem; color: var(--text-muted);">{{ size }}</span>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+
+{# ── 10. BORDER RADIUS ─────────────────────────────────────────────────────────── #}
+<section style="margin-bottom: 3rem;">
+    <h3 style="margin-bottom: 1.5rem; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem;">Border Radius</h3>
+
+    <div style="display: flex; flex-wrap: wrap; gap: 2rem; align-items: center;">
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 0.75rem;">
+            <div style="width: 100px; height: 60px; background: var(--primary-light); border: 2px solid var(--primary-color); border-radius: var(--border-radius-sm);"></div>
+            <code style="font-size: 0.75rem; color: var(--text-muted);">--border-radius-sm</code>
+            <span style="font-size: 0.7rem; color: var(--text-muted);">0.25rem</span>
+        </div>
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 0.75rem;">
+            <div style="width: 100px; height: 60px; background: var(--primary-light); border: 2px solid var(--primary-color); border-radius: var(--border-radius-md);"></div>
+            <code style="font-size: 0.75rem; color: var(--text-muted);">--border-radius-md</code>
+            <span style="font-size: 0.7rem; color: var(--text-muted);">0.5rem</span>
+        </div>
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 0.75rem;">
+            <div style="width: 100px; height: 60px; background: var(--primary-light); border: 2px solid var(--primary-color); border-radius: var(--border-radius-lg);"></div>
+            <code style="font-size: 0.75rem; color: var(--text-muted);">--border-radius-lg</code>
+            <span style="font-size: 0.7rem; color: var(--text-muted);">1rem</span>
+        </div>
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 0.75rem;">
+            <div style="width: 100px; height: 60px; background: var(--primary-light); border: 2px solid var(--primary-color); border-radius: 999px;"></div>
+            <code style="font-size: 0.75rem; color: var(--text-muted);">999px (pill)</code>
+            <span style="font-size: 0.7rem; color: var(--text-muted);">tags · badges</span>
+        </div>
+    </div>
+</section>
+
+{# ── 11. UTILITAIRES ──────────────────────────────────────────────────────────── #}
+<section style="margin-bottom: 3rem;">
+    <h3 style="margin-bottom: 1.5rem; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem;">Utilitaires</h3>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;">
+
+        <div class="card">
+            <div class="card-header"><h4 style="margin:0; color:var(--primary-color);">Alignement texte</h4></div>
+            <div class="card-body" style="display: flex; flex-direction: column; gap: 0.5rem;">
+                <div style="border: 1px dashed var(--border-color); border-radius: var(--border-radius-sm); padding: 0.4rem;" class="text-left">text-left</div>
+                <div style="border: 1px dashed var(--border-color); border-radius: var(--border-radius-sm); padding: 0.4rem;" class="text-center">text-center</div>
+                <div style="border: 1px dashed var(--border-color); border-radius: var(--border-radius-sm); padding: 0.4rem;" class="text-right">text-right</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header"><h4 style="margin:0; color:var(--primary-color);">Backgrounds</h4></div>
+            <div class="card-body" style="display: flex; flex-direction: column; gap: 0.5rem;">
+                <div style="border-radius: var(--border-radius-sm); padding: 0.4rem;" class="bg-primary text-white text-center">.bg-primary</div>
+                <div style="border-radius: var(--border-radius-sm); padding: 0.4rem;" class="bg-secondary text-white text-center">.bg-secondary</div>
+                <div style="border: 1px solid var(--border-color); border-radius: var(--border-radius-sm); padding: 0.4rem;" class="bg-white text-center">.bg-white</div>
+                <div style="border-radius: var(--border-radius-sm); padding: 0.4rem;" class="bg-black text-white text-center">.bg-black</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header"><h4 style="margin:0; color:var(--primary-color);">Marges (mb / mt)</h4></div>
+            <div class="card-body">
+                <p style="margin:0; font-size: 0.875rem; color: var(--text-muted);">
+                    <code>mb-1</code> → <code>--spacing-xs</code> (0.25rem)<br>
+                    <code>mb-2</code> → <code>--spacing-sm</code> (0.5rem)<br>
+                    <code>mb-3</code> → <code>--spacing-md</code> (1rem)<br>
+                    <code>mb-4</code> → <code>--spacing-lg</code> (1.5rem)<br>
+                    <code>mb-5</code> → <code>--spacing-xl</code> (2rem)<br>
+                    <small style="opacity: 0.7;">Idem pour <code>mt-*</code> (margin-top)</small>
+                </p>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header"><h4 style="margin:0; color:var(--primary-color);">Layout utilitaires</h4></div>
+            <div class="card-body">
+                <p style="margin:0; font-size: 0.875rem; color: var(--text-muted);">
+                    <code>.cards-grid</code> → 3 col. desktop, 2 tablette, 1 mobile<br>
+                    <code>.layout-sidebar</code> → 1fr + 320px sidebar<br>
+                    <code>.breadcrumb</code> → fil d'Ariane<br>
+                    <code>.module-item</code> → ligne module cliquable<br>
+                    <code>.changelog-entry</code> → entrée bord coloré<br>
+                    <code>.code-block</code> → bloc code sombre
+                </p>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+(function () {
+    var isLight = false;
+    globalThis.toggleDSTheme = function () {
+        isLight = !isLight;
+        var el  = document.getElementById('ds-preview');
+        var btn = document.getElementById('ds-theme-btn');
+        var ico = document.getElementById('ds-theme-icon');
+        if (isLight) {
+            el.classList.remove('ds-dark');
+            el.classList.add('ds-light');
+            btn.textContent = '';
+            btn.appendChild(ico);
+            btn.append(' Mode Sombre');
+            // swap to moon icon
+            ico.innerHTML = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';
+        } else {
+            el.classList.remove('ds-light');
+            el.classList.add('ds-dark');
+            btn.textContent = '';
+            btn.appendChild(ico);
+            btn.append(' Mode Clair');
+            ico.innerHTML = '<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>';
+        }
+    };
+})();
+</script>
+{% endblock %}

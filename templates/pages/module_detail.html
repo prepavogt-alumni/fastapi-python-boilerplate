@@ -1,0 +1,161 @@
+{% extends "pages/base.html" %}
+
+{% block title %}{{ module.name }} — COOP-CA AMIFOND{% endblock %}
+
+{% block content %}
+
+{% if not module %}
+<div class="alert alert-danger">Module introuvable.</div>
+{% else %}
+
+{# ── Breadcrumb ──────────────────────────────────────────────────────────────── #}
+<nav class="breadcrumb">
+    <a href="/">Accueil</a>
+    <span class="breadcrumb-sep">/</span>
+    <a href="/modules">Modules</a>
+    <span class="breadcrumb-sep">/</span>
+    <span>{{ module.name }}</span>
+</nav>
+
+{# ── Hero ─────────────────────────────────────────────────────────────────────── #}
+<div style="padding-bottom: 1.5rem; border-bottom: 1px solid var(--border-color); margin-bottom: 2rem;">
+    <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 2rem; flex-wrap: wrap;">
+        <div>
+            <h2 style="margin: 0 0 0.5rem;">{{ module.name }}</h2>
+            <p style="margin: 0 0 1rem; color: var(--text-muted); font-size: 1.1rem;">{{ module.tagline }}</p>
+            <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+                <span class="badge {{ module.badge_class }}" style="font-size: 0.85rem; padding: 0.3rem 0.8rem;">{{ module.badge }}</span>
+                <span class="badge badge-neutral" style="font-size: 0.85rem; padding: 0.3rem 0.8rem;">{{ module.version }}</span>
+                <span class="badge badge-success" style="font-size: 0.85rem; padding: 0.3rem 0.8rem;">{{ module.status }}</span>
+            </div>
+        </div>
+        <div>
+            <a href="/api/docs/swagger/" class="btn btn-primary">Voir dans Swagger</a>
+        </div>
+    </div>
+</div>
+
+{# ── Layout sidebar ───────────────────────────────────────────────────────────── #}
+<div class="layout-sidebar">
+
+    {# Main content #}
+    <div class="doc-content">
+
+        <h2>1. Présentation</h2>
+        <p>{{ module.doc_intro }}</p>
+
+        <h2>2. Installation</h2>
+        <pre class="code-block">{{ module.install_snippet }}</pre>
+
+        <h2>3. Configuration</h2>
+        <pre class="code-block">{{ module.config_snippet }}</pre>
+
+        <h2>4. Modèles de données</h2>
+        <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.5rem;">
+            {% for model in module.models %}
+            <code style="background: var(--primary-light); color: var(--primary-color); padding: 0.2rem 0.6rem; border-radius: var(--border-radius-sm); font-size: 0.875rem;">{{ model }}</code>
+            {% endfor %}
+        </div>
+
+        {% if module.note %}
+        <div class="alert alert-info">
+            <strong>Note opérateur :</strong> {{ module.note }}
+        </div>
+        {% endif %}
+
+        <h2>5. Endpoints API</h2>
+
+        <div class="card" style="margin-bottom: 1.5rem;">
+            <div class="card-header" style="display: flex; justify-content: space-between; align-items: center;">
+                <h4 style="margin: 0; color: var(--primary-color);">{{ module.name }}</h4>
+                <small style="color: var(--text-muted);">{{ module.endpoint_count }} endpoints</small>
+            </div>
+            <div class="card-body" style="padding: 0;">
+                <table style="width: 100%; border-collapse: collapse; font-size: 0.875rem;">
+                    <thead>
+                        <tr style="border-bottom: 2px solid var(--border-color); background: var(--primary-light);">
+                            <th style="padding: 0.6rem 1rem; text-align: left; font-weight: 600; color: var(--body-color); width: 90px;">Méthode</th>
+                            <th style="padding: 0.6rem 1rem; text-align: left; font-weight: 600; color: var(--body-color);">Endpoint</th>
+                            <th style="padding: 0.6rem 1rem; text-align: left; font-weight: 600; color: var(--body-color);">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for method, path, label in module.endpoints %}
+                    <tr style="border-bottom: 1px solid var(--border-color);">
+                        <td style="padding: 0.5rem 1rem;">
+                            <span style="display: inline-block; padding: 0.15rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.04em;
+                                {% if method == 'POST' %}background: #e8f5e9; color: #2e7d32;
+                                {% elif method == 'PATCH' or method == 'PUT' %}background: #fff3e0; color: #bf360c;
+                                {% elif method == 'DELETE' %}background: #ffebee; color: #b71c1c;
+                                {% else %}background: #e3f2fd; color: #1565c0;{% endif %}">{{ method }}</span>
+                        </td>
+                        <td style="padding: 0.5rem 1rem; font-family: monospace; font-size: 0.8rem; color: var(--body-color);">{{ path }}</td>
+                        <td style="padding: 0.5rem 1rem; color: var(--text-muted);">{{ label }}</td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+            <a href="/api/docs/swagger/" class="btn btn-outline-primary btn-sm">Swagger UI</a>
+            <a href="/api/docs/redoc/" class="btn btn-outline-secondary btn-sm">ReDoc</a>
+            <a href="/api/schema/" class="btn btn-white btn-sm">OpenAPI JSON</a>
+        </div>
+
+    </div>
+
+    {# Sidebar #}
+    <div>
+        <div class="card" style="margin-bottom: 1.5rem;">
+            <div class="card-header">
+                <h4 style="margin: 0; color: var(--primary-color);">Métadonnées</h4>
+            </div>
+            <div class="card-body">
+                <table style="width: 100%; border-collapse: collapse; font-size: 0.875rem;">
+                    <tr style="border-bottom: 1px solid var(--border-color);">
+                        <td style="padding: 0.5rem 0; color: var(--text-muted); width: 40%;">Mainteneur</td>
+                        <td style="padding: 0.5rem 0; font-weight: 500;">{{ module.maintainer }}</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid var(--border-color);">
+                        <td style="padding: 0.5rem 0; color: var(--text-muted);">Version</td>
+                        <td style="padding: 0.5rem 0;"><span class="badge badge-neutral">{{ module.version }}</span></td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid var(--border-color);">
+                        <td style="padding: 0.5rem 0; color: var(--text-muted);">Statut</td>
+                        <td style="padding: 0.5rem 0;"><span class="badge badge-success">{{ module.status }}</span></td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid var(--border-color);">
+                        <td style="padding: 0.5rem 0; color: var(--text-muted);">Endpoints</td>
+                        <td style="padding: 0.5rem 0;">{{ module.endpoint_count }}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0.5rem 0; color: var(--text-muted);">Compatibilité</td>
+                        <td style="padding: 0.5rem 0; font-size: 0.8rem;">{{ module.compatibility }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="card" style="margin-bottom: 1.5rem;">
+            <div class="card-header">
+                <h4 style="margin: 0; color: var(--primary-color);">Autres modules</h4>
+            </div>
+            <div class="card-body" style="padding: 0.5rem 0;">
+                {% for m in all_modules %}
+                {% if m.slug != module.slug %}
+                <a href="/modules/{{m.slug}}" style="display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 1rem; text-decoration: none; color: var(--body-color); transition: background 0.2s; font-size: 0.875rem;">
+                    <span style="color: var(--primary-color); font-weight: 500;">{{ m.name }}</span>
+                    <span class="badge {{ m.badge_class }}">{{ m.badge }}</span>
+                </a>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{% endif %}
+{% endblock %}

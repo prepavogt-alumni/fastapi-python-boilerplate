@@ -1,0 +1,129 @@
+{% extends "pages/base.html" %}
+
+{% block title %}Documentation — COOP-CA AMIFOND{% endblock %}
+
+{% block content %}
+
+{# ── Sub-header style bande ───────────────────────────────────────────────────── #}
+<div style="background: var(--primary-color); color: white; margin: calc(-1 * var(--spacing-xl)) calc(-1 * var(--spacing-lg)) var(--spacing-xl); padding: var(--spacing-md) var(--spacing-lg);">
+    <h3 style="margin: 0; color: white; font-weight: 300; font-size: 1.25rem;">Documentation Système</h3>
+</div>
+
+<div class="layout-sidebar">
+
+    {# ── Main content ──────────────────────────────────────────────────────────── #}
+    <div class="doc-content">
+
+        <h1>Documentation COOP-CA AMIFOND</h1>
+        <p>Tout ce que vous devez savoir pour déployer et utiliser le système de gestion de la coopérative d'épargne et de crédit.</p>
+
+        <h2>Premiers pas</h2>
+        <p>Nouveau sur le système AMIFOND ou sur les environnements de production ? C'est ici qu'il faut commencer.</p>
+        <ul>
+            <li style="margin-bottom: 0.5rem;"><strong>De zéro :</strong> <a href="#">Aperçu de l'architecture</a> | <a href="#">Variables d'environnement</a> | <a href="#">Installation locale</a></li>
+            <li style="margin-bottom: 0.5rem;"><strong>Tutoriels :</strong>
+                <a href="#">1. Configuration PostgreSQL</a> |
+                <a href="#">2. Custom User & Auth JWT</a> |
+                <a href="#">3. Plan Comptable PC-EMF</a> |
+                <a href="#">4. Gestion des branches (agences)</a> |
+                <a href="#">5. Déploiement Docker</a> |
+                <a href="#">6. Conformité COBAC</a>
+            </li>
+            <li style="margin-bottom: 0.5rem;"><strong>Guides avancés :</strong> <a href="#">Implémenter le RBAC</a> | <a href="#">Moteur comptable (15 règles PC-EMF)</a> | <a href="#">Provisions et classification des créances</a></li>
+        </ul>
+
+        <h2>Architecture du projet</h2>
+        <p>Le système suit une structure Django modulaire avec séparation claire des responsabilités :</p>
+        <pre class="code-block">coop-ca-amifond/
+├── authentication/     # Custom User, JWT, RBAC, rôles coopérative
+├── apps/
+│   ├── enterprise/     # Agrégat racine (Entreprise, Branches, Exercices)
+│   ├── accounts/       # Plan comptable PC-EMF (~1532 comptes)
+│   ├── tiers/          # Tiers Classe 4 (personnes physiques/morales)
+│   ├── customers/      # Clientèle (KYC, IBAN, comptes, épargne)
+│   ├── accounting/     # Comptabilité générale (journaux, écritures)
+│   ├── treasury/       # Trésorerie (sessions de caisse, opérations)
+│   ├── loans/          # Crédits (CTA/MLT, amortissement, provisions)
+│   ├── shares/         # Parts sociales (souscription, libération, retrait)
+│   ├── events/         # Moteur de règles comptables (15 règles PC-EMF)
+│   ├── client/         # Portail client self-service (lecture seule)
+│   ├── manager/        # Portail gestionnaire back-office (CRUD)
+│   └── common/         # Utilitaires partagés (Country, City)
+├── core/               # Utilitaires transverses (Document, MediaFile, Notification)
+├── config/             # Settings, URLs, WSGI, Swagger
+└── pages/              # Interface HTML + Design System</pre>
+
+        <h2>Obtenir de l'aide</h2>
+        <ul>
+            <li style="margin-bottom: 0.5rem;">Consultez la <a href="#">FAQ</a> — réponses aux questions de déploiement fréquentes.</li>
+            <li style="margin-bottom: 0.5rem;">Besoin d'un module précis ? Consultez <a href="/modules">l'index des Modules</a>.</li>
+            <li style="margin-bottom: 0.5rem;">Explorez les endpoints via <a href="/api/docs/swagger/">Swagger UI</a> ou <a href="/api/docs/redoc/">ReDoc</a>.</li>
+            <li style="margin-bottom: 0.5rem;">Signalez les bugs sur le <a href="#">Ticket Tracker (GitHub)</a>.</li>
+        </ul>
+
+        <h2>Organisation de la documentation</h2>
+        <ul>
+            <li style="margin-bottom: 0.5rem;"><a href="#">Tutoriels étape par étape</a> — du <code>git clone</code> jusqu'au premier déploiement réussi.</li>
+            <li style="margin-bottom: 0.5rem;"><a href="#">Guides de conception</a> — pourquoi JWT cookie-only, pourquoi drf-spectacular, comment fonctionne l'isolation par agence (BranchScopedModel).</li>
+            <li style="margin-bottom: 0.5rem;"><a href="#">Référence API</a> — documentation complète de tous les endpoints via OpenAPI 3.0.</li>
+            <li style="margin-bottom: 0.5rem;"><a href="/changelog">Changelog</a> — historique des versions et mises à jour.</li>
+        </ul>
+
+    </div>
+
+    {# ── Sidebar ───────────────────────────────────────────────────────────────── #}
+    <div class="docs-sidebar">
+
+        <div class="card" style="margin-bottom: 1.5rem;">
+            <div class="card-header">
+                <h4 style="margin: 0; color: var(--primary-color);">Navigation</h4>
+            </div>
+            <div class="card-body" style="font-size: 0.875rem;">
+                <ul style="list-style: none; padding: 0; margin: 0;">
+                    <li style="margin-bottom: 0.5rem;">→ <a href="/">Accueil & APIs</a></li>
+                    <li style="margin-bottom: 0.5rem;">→ <a href="/modules">Index des Modules</a></li>
+                    <li style="margin-bottom: 0.5rem;">→ <a href="/changelog">Changelog</a></li>
+                    <li style="margin-bottom: 0.5rem;">→ <a href="/design-system">Design System</a></li>
+                    <li style="margin-bottom: 0.5rem;">→ <a href="/api/docs/swagger/">API Swagger</a></li>
+                    <li style="margin-bottom: 0.5rem;">→ <a href="/api/schema/">OpenAPI JSON</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card" style="margin-bottom: 1.5rem;">
+            <div class="card-header">
+                <h4 style="margin: 0; color: var(--primary-color);">Assistance</h4>
+            </div>
+            <div class="card-body" style="font-size: 0.875rem;">
+                <div style="padding: 0.6rem 0; border-bottom: 1px solid var(--border-color);">
+                    <a href="#" style="color: var(--primary-color); text-decoration: none; font-weight: 500; display: block; margin-bottom: 0.2rem;">FAQ Déploiement</a>
+                    <span style="color: var(--text-muted); font-size: 0.8rem;">Erreurs 502, variables d'environnement, migrations.</span>
+                </div>
+                <div style="padding: 0.6rem 0; border-bottom: 1px solid var(--border-color);">
+                    <a href="#" style="color: var(--primary-color); text-decoration: none; font-weight: 500; display: block; margin-bottom: 0.2rem;">Équipe de développement</a>
+                    <span style="color: var(--text-muted); font-size: 0.8rem;">Contactez l'équipe technique pour support.</span>
+                </div>
+                <div style="padding: 0.6rem 0;">
+                    <a href="#" style="color: var(--primary-color); text-decoration: none; font-weight: 500; display: block; margin-bottom: 0.2rem;">GitHub Issues</a>
+                    <span style="color: var(--text-muted); font-size: 0.8rem;">Signalez des bugs ou proposez des évolutions.</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="sidebar-widget">
+            <span style="color: var(--text-muted);">Django</span> <strong>4.2 LTS</strong>
+        </div>
+        <div class="sidebar-widget">
+            <span style="color: var(--text-muted);">Python</span> <strong>3.10+</strong>
+        </div>
+        <div class="sidebar-widget">
+            <span style="color: var(--text-muted);">DRF</span> <strong>3.15+</strong>
+        </div>
+        <div class="sidebar-widget">
+            <span style="color: var(--text-muted);">Version</span> <strong>v2.1</strong>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

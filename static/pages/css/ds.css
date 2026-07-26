@@ -1,0 +1,92 @@
+/* ds.css — Styles spécifiques à la page Design System
+ * Chargé uniquement par pages/templates/pages/design_system.html via {% block extra_css %}
+ * Palette Django green : primary #0f6240 · secondary #0f172a
+ */
+
+/* ── Dark mode (défaut) ───────────────────────────────────────────────────── */
+.ds-dark {
+  --ds-bg:                #0f172a;
+  --ds-dot:               #1e293b;
+  --ds-panel-bg:          #1e293b;
+  --ds-panel-border:      rgba(255, 255, 255, 0.06);
+  --ds-label-color:       #64748b;
+  --ds-typo-headline:     #ffffff;
+  --ds-typo-body:         #cbd5e1;
+  --ds-typo-label-swatch: #94a3b8;
+  --ds-search-bg:         rgba(255, 255, 255, 0.06);
+  --ds-search-border:     rgba(255, 255, 255, 0.12);
+  --ds-search-text:       #c8d6e8;
+  --ds-progress-track:    rgba(255, 255, 255, 0.1);
+  --ds-navpill-bg:        rgba(0, 0, 0, 0.35);
+  --ds-navpill-icon:      #94a3b8;
+  --ds-icon-ghost-bg:     rgba(255, 255, 255, 0.1);
+  --ds-icon-ghost-stroke: #94a3b8;
+  --ds-neutral-badge-bg:  #1e293b;
+  --ds-neutral-badge-fg:  #e2e8f0;
+  --ds-neutral-badge-bd:  rgba(255, 255, 255, 0.15);
+  --ds-outline-btn-bd:    rgba(255, 255, 255, 0.3);
+  --ds-outline-btn-fg:    #ffffff;
+}
+
+/* ── Light mode (toggle) ──────────────────────────────────────────────────── */
+.ds-light {
+  --ds-bg:                #f8f9fa;
+  --ds-dot:               #e0e0e0;
+  --ds-panel-bg:          #ffffff;
+  --ds-panel-border:      rgba(26, 82, 118, 0.1);
+  --ds-label-color:       #6e7191;
+  --ds-typo-headline:     #1a5276;
+  --ds-typo-body:         #333333;
+  --ds-typo-label-swatch: #6e7191;
+  --ds-search-bg:         #eef3f7;
+  --ds-search-border:     #b0c8d6;
+  --ds-search-text:       #333333;
+  --ds-progress-track:    #dcfce7;
+  --ds-navpill-bg:        #eef3f7;
+  --ds-navpill-icon:      #1a5276;
+  --ds-icon-ghost-bg:     #eef3f7;
+  --ds-icon-ghost-stroke: #1a5276;
+  --ds-neutral-badge-bg:  #eef3f7;
+  --ds-neutral-badge-fg:  #1a5276;
+  --ds-neutral-badge-bd:  rgba(26, 82, 118, 0.15);
+  --ds-outline-btn-bd:    rgba(26, 82, 118, 0.3);
+  --ds-outline-btn-fg:    #1a5276;
+}
+
+/* ── Fond pointillé ───────────────────────────────────────────────────────── */
+.ds-dot-bg {
+  background-color: var(--ds-bg);
+  background-image: radial-gradient(var(--ds-dot) 1px, transparent 1px);
+  background-size: 24px 24px;
+  transition: background-color 0.3s;
+}
+
+/* ── Panneau ──────────────────────────────────────────────────────────────── */
+.ds-panel {
+  background-color: var(--ds-panel-bg);
+  border: 1px solid var(--ds-panel-border);
+  border-radius: 0.75rem;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  transition: background-color 0.3s, border-color 0.3s;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+/* ── Label ────────────────────────────────────────────────────────────────── */
+.ds-label {
+  color: var(--ds-label-color);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 700;
+}
+
+/* ── Responsive ───────────────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  #ds-preview .ds-dot-bg > div { grid-template-columns: 1fr 1fr !important; }
+}
+@media (max-width: 600px) {
+  #ds-preview .ds-dot-bg > div { grid-template-columns: 1fr !important; }
+}

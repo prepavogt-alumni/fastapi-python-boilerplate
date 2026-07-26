@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}AMIFOND{% endblock %}</title>
+    <link rel="stylesheet" href="/static/pages/css/django-design.css">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <h1 style="color: var(--white); background: none; -webkit-text-fill-color: var(--white);">
+                        COOP-CA AMIFOND
+                    </h1>
+                    <p class="text-white" style="margin: 0; font-size: 1rem; opacity: 0.9;">
+                        Core Banking System · PC-EMF · FastAPI & Vercel
+                    </p>
+                </div>
+                <div>
+                    <span style="background: var(--primary-color); color: #fff;
+                                 padding: 0.4rem 0.9rem; border-radius: 0.375rem;
+                                 font-weight: 600; font-size: 0.85rem; letter-spacing: 0.05em;
+                                 box-shadow: var(--shadow-sm);">
+                        {{ environment|default('Production') }}
+                    </span>
+                </div>
+            </div>
+
+            <nav style="margin-top: 1rem;">
+                <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+                    <a href="/"              class="btn btn-outline-white btn-sm">Accueil</a>
+                    <a href="/modules"       class="btn btn-outline-white btn-sm">Modules</a>
+                    <a href="/apps"          class="btn btn-outline-white btn-sm">APIs Reference</a>
+                    <a href="/documentation" class="btn btn-outline-white btn-sm">Docs</a>
+                    <a href="/changelog"     class="btn btn-outline-white btn-sm">Changelog</a>
+                    <a href="/design-system" class="btn btn-outline-white btn-sm">Design System</a>
+                    <a href="/docs"          class="btn btn-outline-white btn-sm">Swagger UI</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 COOP-CA AMIFOND. Tous droits réservés.</p>
+        </div>
+    </footer>
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

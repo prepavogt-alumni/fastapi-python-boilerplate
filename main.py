@@ -1,13 +1,17 @@
 from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
 from api.routes import data, web
 from db.database import engine, Base
 from db import models  # noqa: F401
 
 app = FastAPI(
-    title="Vercel + FastAPI",
-    description="Vercel + FastAPI",
-    version="1.0.0",
+    title="COOP-CA AMIFOND + FastAPI",
+    description="FastAPI Core Banking System on Vercel",
+    version="2.5.0",
 )
+
+# Mounting static files directory
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 if engine:
     try:

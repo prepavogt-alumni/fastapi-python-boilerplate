@@ -1,0 +1,226 @@
+{% extends "pages/base.html" %}
+
+{% block title %}Modules — COOP-CA AMIFOND{% endblock %}
+
+{% block content %}
+
+{# ── Breadcrumb ──────────────────────────────────────────────────────────────── #}
+<nav class="breadcrumb">
+    <a href="/">Accueil</a>
+    <span class="breadcrumb-sep">/</span>
+    <span>Modules</span>
+</nav>
+
+{# ── Header + Search ──────────────────────────────────────────────────────────── #}
+<div style="margin-bottom: 1.5rem;">
+    <div style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 1rem; margin-bottom: 1rem;">
+        <div>
+            <h2 style="margin: 0 0 0.25rem;">Modules Disponibles</h2>
+            <p style="margin: 0; color: var(--text-muted); font-size: 0.9rem;">
+                <span id="results-count">{{ modules|length }}</span> modules — Core, Comptabilité, Opérations, Crédits, Capital, Portails
+            </p>
+        </div>
+        {# Mobile filter toggle #}
+        <button id="filter-toggle" class="filter-toggle-btn" onclick="toggleFilterSidebar()">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/>
+            </svg>
+            Filtres
+        </button>
+    </div>
+
+    {# Search bar #}
+    <div style="position: relative; max-width: 100%;">
+        <svg style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); width: 18px; height: 18px; color: var(--text-muted); pointer-events: none;" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+        </svg>
+        <input
+            id="module-search"
+            type="text"
+            class="form-control"
+            placeholder="Rechercher un module, ex : « COBAC », « JWT », « crédit »…"
+            style="padding-left: 2.75rem; padding-right: 1rem; font-size: 1rem;"
+            autocomplete="off"
+        >
+    </div>
+</div>
+
+{# ── Sidebar + Content ─────────────────────────────────────────────────────────── #}
+<div class="modules-layout">
+
+    {# ── Sidebar ── #}
+    <aside id="filter-sidebar" class="filter-sidebar">
+
+        <div class="filter-sidebar-header">
+            <span style="font-weight: 700; font-size: 0.9rem; color: var(--body-color);">Filtres</span>
+            <button class="filter-reset-btn" id="reset-all" onclick="resetAllFilters()">Réinitialiser</button>
+        </div>
+
+        {# Filtrer par Catégorie #}
+        <div class="filter-section">
+            <h6 class="filter-section-title">Filtrer par Catégorie</h6>
+            <ul class="filter-list">
+                {% for name, count in category_filters %}
+                <li class="filter-item">
+                    <label class="filter-label">
+                        <input type="checkbox" class="filter-category filter-cb" value="{{ name }}" checked>
+                        <span class="filter-label-text">{{ name }}</span>
+                        <span class="filter-count">{{ count }}</span>
+                    </label>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        {# Niveau de Difficulté #}
+        <div class="filter-section">
+            <h6 class="filter-section-title">Niveau de Difficulté</h6>
+            <ul class="filter-list">
+                {% for name, count in badge_filters %}
+                <li class="filter-item">
+                    <label class="filter-label">
+                        <input type="checkbox" class="filter-badge filter-cb" value="{{ name }}" checked>
+                        <span class="filter-label-text">{{ name }}</span>
+                        <span class="filter-count">{{ count }}</span>
+                    </label>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        {# Statut #}
+        <div class="filter-section">
+            <h6 class="filter-section-title">Statut</h6>
+            <ul class="filter-list">
+                <li class="filter-item">
+                    <label class="filter-label">
+                        <input type="checkbox" class="filter-status filter-cb" value="Production Ready" checked>
+                        <span class="filter-label-text">Production Ready</span>
+                    </label>
+                </li>
+                <li class="filter-item">
+                    <label class="filter-label">
+                        <input type="checkbox" class="filter-status filter-cb" value="Stable" checked>
+                        <span class="filter-label-text">Stable</span>
+                    </label>
+                </li>
+            </ul>
+        </div>
+
+    </aside>
+
+    {# ── Module list ── #}
+    <div>
+        <div id="module-list" style="display: flex; flex-direction: column; gap: 0.75rem;">
+            {% for module in modules %}
+            <a href="/modules/{{module.slug}}"
+               class="module-item"
+               data-name="{{ module.name|lower }}"
+               data-tagline="{{ module.tagline|lower }}"
+               data-description="{{ module.description|lower }}"
+               data-category="{{ module.category }}"
+               data-badge="{{ module.badge }}"
+               data-status="{{ module.status }}">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem;">
+                    <div style="flex: 1; min-width: 0;">
+                        <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 0.4rem;">
+                            <span style="font-size: 1rem; font-weight: 700; color: var(--primary-color);">{{ module.name }}</span>
+                            <span class="badge {{ module.badge_class }}">{{ module.badge }}</span>
+                            <span class="badge badge-neutral">{{ module.category }}</span>
+                            <span class="badge badge-neutral">{{ module.version }}</span>
+                        </div>
+                        <p style="margin: 0 0 0.4rem; color: var(--text-muted); font-size: 0.85rem;">{{ module.tagline }}</p>
+                        <p style="margin: 0; font-size: 0.875rem; color: var(--body-color);">{{ module.description }}</p>
+                    </div>
+                    <div style="text-align: right; white-space: nowrap; flex-shrink: 0;">
+                        <div style="font-size: 0.8rem; color: var(--text-muted);">{{ module.endpoint_count }} endpoints</div>
+                        <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.25rem;">{{ module.status }}</div>
+                    </div>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+
+        {# ── Empty state ── #}
+        <div id="no-results" style="display: none; text-align: center; padding: 3rem 1rem; color: var(--text-muted);">
+            <svg style="width: 40px; height: 40px; margin-bottom: 1rem; opacity: 0.4;" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+            </svg>
+            <p style="margin: 0 0 0.75rem; font-size: 1rem;">Aucun module ne correspond à vos filtres.</p>
+            <button class="btn btn-outline-primary btn-sm" onclick="resetAllFilters()">Réinitialiser les filtres</button>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+(function () {
+    var searchInput  = document.getElementById('module-search');
+    var moduleItems  = document.querySelectorAll('#module-list .module-item');
+    var noResults    = document.getElementById('no-results');
+    var countDisplay = document.getElementById('results-count');
+    var searchQuery  = '';
+
+    function getChecked(cls) {
+        return Array.from(document.querySelectorAll('.' + cls + ':checked')).map(function (cb) { return cb.value; });
+    }
+
+    function applyFilters() {
+        var selCats    = getChecked('filter-category');
+        var selBadges  = getChecked('filter-badge');
+        var selStatus  = getChecked('filter-status');
+        var visible    = 0;
+
+        moduleItems.forEach(function (item) {
+            var text = [item.dataset.name, item.dataset.tagline, item.dataset.description].join(' ');
+            var matchesSearch = searchQuery === '' || text.includes(searchQuery);
+            var matchesCat    = selCats.length   === 0 || selCats.includes(item.dataset.category);
+            var matchesBadge  = selBadges.length === 0 || selBadges.includes(item.dataset.badge);
+            var matchesStatus = selStatus.length === 0 || selStatus.includes(item.dataset.status);
+
+            if (matchesSearch && matchesCat && matchesBadge && matchesStatus) {
+                item.style.display = '';
+                visible++;
+            } else {
+                item.style.display = 'none';
+            }
+        });
+
+        if (countDisplay) { countDisplay.textContent = visible; }
+        noResults.style.display = visible === 0 ? 'block' : 'none';
+    }
+
+    // Pre-fill from ?q= URL param
+    var urlQ = new URLSearchParams(globalThis.location.search).get('q');
+    if (urlQ) {
+        searchInput.value = urlQ;
+        searchQuery = urlQ.toLowerCase();
+        applyFilters();
+    }
+
+    searchInput.addEventListener('input', function () {
+        searchQuery = this.value.trim().toLowerCase();
+        applyFilters();
+    });
+
+    document.querySelectorAll('.filter-cb').forEach(function (cb) {
+        cb.addEventListener('change', applyFilters);
+    });
+
+    globalThis.resetAllFilters = function () {
+        document.querySelectorAll('.filter-cb').forEach(function (cb) { cb.checked = true; });
+        searchInput.value = '';
+        searchQuery = '';
+        applyFilters();
+    };
+
+    globalThis.toggleFilterSidebar = function () {
+        var sidebar = document.getElementById('filter-sidebar');
+        sidebar.classList.toggle('filter-sidebar--open');
+    };
+})();
+</script>
+{% endblock %}

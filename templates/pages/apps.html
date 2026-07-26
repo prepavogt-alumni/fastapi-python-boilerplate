@@ -1,0 +1,325 @@
+{% extends "pages/base.html" %}
+
+{% block title %}Référence API — COOP-CA AMIFOND{% endblock %}
+
+{% block content %}
+
+{# ── Breadcrumb ──────────────────────────────────────────────────────────────── #}
+<nav class="breadcrumb">
+    <a href="/">Accueil</a>
+    <span class="breadcrumb-sep">/</span>
+    <span>Référence API</span>
+</nav>
+
+{# ── Header ───────────────────────────────────────────────────────────────────── #}
+<div style="margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border-color);">
+    <h2 style="margin: 0 0 0.25rem;">Référence API</h2>
+    <p style="margin: 0; color: var(--text-muted);">Tous les endpoints REST du système COOP-CA AMIFOND — consultez aussi <a href="/api/docs/swagger/" style="color:var(--primary-color);">Swagger UI</a> pour l'exploration interactive.</p>
+</div>
+
+{# ── Grille APIs ──────────────────────────────────────────────────────────────── #}
+<div class="cards-grid">
+
+    {# Authentification #}
+    <div class="card">
+        <div class="card-header">
+            <h4 style="margin:0; color:var(--primary-color);">Authentification</h4>
+            <small style="color:var(--text-muted);">/api/v1/auth/ + /api/v1/token/</small>
+        </div>
+        <div class="card-body" style="padding: 0;">
+            <table style="width:100%; border-collapse:collapse; font-size:0.875rem;">
+                <thead>
+                    <tr style="border-bottom:2px solid var(--border-color); background:var(--primary-light);">
+                        <th scope="col" style="padding:0.4rem 1rem; color:var(--text-muted); font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; width:60px;">Méthode</th>
+                        <th scope="col" style="padding:0.4rem 0;    color:var(--text-muted); font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.05em;">Endpoint</th>
+                        <th scope="col" style="padding:0.4rem 1rem; color:var(--text-muted); font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; text-align:right;">Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for method, path, label in auth_endpoints %}
+                <tr style="border-bottom:1px solid var(--border-color);">
+                    <td style="padding:0.6rem 1rem; width:60px;">
+                        <span style="background:{% if method == 'POST' %}#e8f5e9; color:#2e7d32{% else %}#e3f2fd; color:#1565c0{% endif %}; padding:0.15rem 0.5rem; border-radius:0.25rem; font-size:0.75rem; font-weight:600;">{{ method }}</span>
+                    </td>
+                    <td style="padding:0.6rem 0; font-family:monospace; color:var(--body-color);">{{ path }}</td>
+                    <td style="padding:0.6rem 1rem; color:var(--text-muted); text-align:right;">{{ label }}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    {# Enterprise #}
+    <div class="card">
+        <div class="card-header">
+            <h4 style="margin:0; color:var(--primary-color);">Enterprise & Gouvernance</h4>
+            <small style="color:var(--text-muted);">/api/v1/enterprise/</small>
+        </div>
+        <div class="card-body" style="padding: 0;">
+            <table style="width:100%; border-collapse:collapse; font-size:0.875rem;">
+                <thead>
+                    <tr style="border-bottom:2px solid var(--border-color); background:var(--primary-light);">
+                        <th scope="col" style="padding:0.4rem 1rem; color:var(--text-muted); font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; width:60px;">Méthode</th>
+                        <th scope="col" style="padding:0.4rem 0;    color:var(--text-muted); font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.05em;">Endpoint</th>
+                        <th scope="col" style="padding:0.4rem 1rem; color:var(--text-muted); font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; text-align:right;">Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for method, path, label in enterprise_endpoints %}
+                <tr style="border-bottom:1px solid var(--border-color);">
+                    <td style="padding:0.6rem 1rem; width:60px;">
+                        <span style="background:{% if method == 'POST' %}#e8f5e9; color:#2e7d32{% elif method == 'GET' %}#e3f2fd; color:#1565c0{% elif method == 'PATCH' %}#fff3e0; color:#e65100{% else %}#fce4ec; color:#c62828{% endif %}; padding:0.15rem 0.5rem; border-radius:0.25rem; font-size:0.75rem; font-weight:600;">{{ method }}</span>
+                    </td>
+                    <td style="padding:0.6rem 0; font-family:monospace; color:var(--body-color); font-size:0.8rem;">{{ path }}</td>
+                    <td style="padding:0.6rem 1rem; color:var(--text-muted); text-align:right; white-space:nowrap;">{{ label }}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    {# Tiers #}
+    <div class="card">
+        <div class="card-header">
+            <h4 style="margin:0; color:var(--primary-color);">Tiers & Clientèle</h4>
+            <small style="color:var(--text-muted);">/api/v1/tiers/</small>
+        </div>
+        <div class="card-body" style="padding: 0;">
+            <table style="width:100%; border-collapse:collapse; font-size:0.875rem;">
+                <thead>
+                    <tr style="border-bottom:2px solid var(--border-color); background:var(--primary-light);">
+                        <th scope="col" style="padding:0.4rem 1rem; color:var(--text-muted); font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; width:60px;">Méthode</th>
+                        <th scope="col" style="padding:0.4rem 0;    color:var(--text-muted); font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.05em;">Endpoint</th>
+                        <th scope="col" style="padding:0.4rem 1rem; color:var(--text-muted); font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; text-align:right;">Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for method, path, label in tiers_endpoints %}
+                <tr style="border-bottom:1px solid var(--border-color);">
+                    <td style="padding:0.6rem 1rem; width:60px;">
+                        <span style="background:{% if method == 'POST' %}#e8f5e9; color:#2e7d32{% else %}#e3f2fd; color:#1565c0{% endif %}; padding:0.15rem 0.5rem; border-radius:0.25rem; font-size:0.75rem; font-weight:600;">{{ method }}</span>
+                    </td>
+                    <td style="padding:0.6rem 0; font-family:monospace; color:var(--body-color); font-size:0.8rem;">{{ path }}</td>
+                    <td style="padding:0.6rem 1rem; color:var(--text-muted); text-align:right; white-space:nowrap;">{{ label }}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    {# Plan Comptable #}
+    <div class="card">
+        <div class="card-header">
+            <h4 style="margin:0; color:var(--primary-color);">Plan Comptable PC-EMF</h4>
+            <small style="color:var(--text-muted);">/api/v1/accounts/</small>
+        </div>
+        <div class="card-body" style="padding: 0;">
+            <table style="width:100%; border-collapse:collapse; font-size:0.875rem;">
+                <thead>
+                    <tr style="border-bottom:2px solid var(--border-color); background:var(--primary-light);">
+                        <th scope="col" style="padding:0.4rem 1rem; color:var(--text-muted); font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; width:60px;">Méthode</th>
+                        <th scope="col" style="padding:0.4rem 0;    color:var(--text-muted); font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.05em;">Endpoint</th>
+                        <th scope="col" style="padding:0.4rem 1rem; color:var(--text-muted); font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; text-align:right;">Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for method, path, label in accounts_endpoints %}
+                <tr style="border-bottom:1px solid var(--border-color);">
+                    <td style="padding:0.6rem 1rem; width:60px;">
+                        <span style="background:{% if method == 'POST' %}#e8f5e9; color:#2e7d32{% else %}#e3f2fd; color:#1565c0{% endif %}; padding:0.15rem 0.5rem; border-radius:0.25rem; font-size:0.75rem; font-weight:600;">{{ method }}</span>
+                    </td>
+                    <td style="padding:0.6rem 0; font-family:monospace; color:var(--body-color); font-size:0.8rem;">{{ path }}</td>
+                    <td style="padding:0.6rem 1rem; color:var(--text-muted); text-align:right; white-space:nowrap;">{{ label }}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    {# Comptabilité Générale #}
+    <div class="card">
+        <div class="card-header">
+            <h4 style="margin:0; color:var(--primary-color);">Comptabilité Générale</h4>
+            <small style="color:var(--text-muted);">/api/v1/accounting/</small>
+        </div>
+        <div class="card-body" style="padding: 0;">
+            <table style="width:100%; border-collapse:collapse; font-size:0.875rem;">
+                <thead>
+                    <tr style="border-bottom:2px solid var(--border-color); background:var(--primary-light);">
+                        <th scope="col" style="padding:0.4rem 1rem; color:var(--text-muted); font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; width:60px;">Méthode</th>
+                        <th scope="col" style="padding:0.4rem 0;    color:var(--text-muted); font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.05em;">Endpoint</th>
+                        <th scope="col" style="padding:0.4rem 1rem; color:var(--text-muted); font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; text-align:right;">Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for method, path, label in accounting_endpoints %}
+                <tr style="border-bottom:1px solid var(--border-color);">
+                    <td style="padding:0.6rem 1rem; width:60px;">
+                        <span style="background:{% if method == 'POST' %}#e8f5e9; color:#2e7d32{% else %}#e3f2fd; color:#1565c0{% endif %}; padding:0.15rem 0.5rem; border-radius:0.25rem; font-size:0.75rem; font-weight:600;">{{ method }}</span>
+                    </td>
+                    <td style="padding:0.6rem 0; font-family:monospace; color:var(--body-color); font-size:0.8rem;">{{ path }}</td>
+                    <td style="padding:0.6rem 1rem; color:var(--text-muted); text-align:right; white-space:nowrap;">{{ label }}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    {# Trésorerie #}
+    <div class="card">
+        <div class="card-header">
+            <h4 style="margin:0; color:var(--primary-color);">Trésorerie</h4>
+            <small style="color:var(--text-muted);">/api/v1/treasury/</small>
+        </div>
+        <div class="card-body" style="padding: 0;">
+            <table style="width:100%; border-collapse:collapse; font-size:0.875rem;">
+                <thead>
+                    <tr style="border-bottom:2px solid var(--border-color); background:var(--primary-light);">
+                        <th scope="col" style="padding:0.4rem 1rem; color:var(--text-muted); font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; width:60px;">Méthode</th>
+                        <th scope="col" style="padding:0.4rem 0;    color:var(--text-muted); font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.05em;">Endpoint</th>
+                        <th scope="col" style="padding:0.4rem 1rem; color:var(--text-muted); font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; text-align:right;">Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for method, path, label in treasury_endpoints %}
+                <tr style="border-bottom:1px solid var(--border-color);">
+                    <td style="padding:0.6rem 1rem; width:60px;">
+                        <span style="background:{% if method == 'POST' %}#e8f5e9; color:#2e7d32{% else %}#e3f2fd; color:#1565c0{% endif %}; padding:0.15rem 0.5rem; border-radius:0.25rem; font-size:0.75rem; font-weight:600;">{{ method }}</span>
+                    </td>
+                    <td style="padding:0.6rem 0; font-family:monospace; color:var(--body-color); font-size:0.8rem;">{{ path }}</td>
+                    <td style="padding:0.6rem 1rem; color:var(--text-muted); text-align:right; white-space:nowrap;">{{ label }}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    {# Crédits #}
+    <div class="card">
+        <div class="card-header">
+            <h4 style="margin:0; color:var(--primary-color);">Crédits</h4>
+            <small style="color:var(--text-muted);">/api/v1/loans/</small>
+        </div>
+        <div class="card-body" style="padding: 0;">
+            <table style="width:100%; border-collapse:collapse; font-size:0.875rem;">
+                <thead>
+                    <tr style="border-bottom:2px solid var(--border-color); background:var(--primary-light);">
+                        <th scope="col" style="padding:0.4rem 1rem; color:var(--text-muted); font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; width:60px;">Méthode</th>
+                        <th scope="col" style="padding:0.4rem 0;    color:var(--text-muted); font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.05em;">Endpoint</th>
+                        <th scope="col" style="padding:0.4rem 1rem; color:var(--text-muted); font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; text-align:right;">Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for method, path, label in loans_endpoints %}
+                <tr style="border-bottom:1px solid var(--border-color);">
+                    <td style="padding:0.6rem 1rem; width:60px;">
+                        <span style="background:{% if method == 'POST' %}#e8f5e9; color:#2e7d32{% else %}#e3f2fd; color:#1565c0{% endif %}; padding:0.15rem 0.5rem; border-radius:0.25rem; font-size:0.75rem; font-weight:600;">{{ method }}</span>
+                    </td>
+                    <td style="padding:0.6rem 0; font-family:monospace; color:var(--body-color); font-size:0.8rem;">{{ path }}</td>
+                    <td style="padding:0.6rem 1rem; color:var(--text-muted); text-align:right; white-space:nowrap;">{{ label }}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    {# Parts Sociales #}
+    <div class="card">
+        <div class="card-header">
+            <h4 style="margin:0; color:var(--primary-color);">Parts Sociales</h4>
+            <small style="color:var(--text-muted);">/api/v1/shares/</small>
+        </div>
+        <div class="card-body" style="padding: 0;">
+            <table style="width:100%; border-collapse:collapse; font-size:0.875rem;">
+                <thead>
+                    <tr style="border-bottom:2px solid var(--border-color); background:var(--primary-light);">
+                        <th scope="col" style="padding:0.4rem 1rem; color:var(--text-muted); font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; width:60px;">Méthode</th>
+                        <th scope="col" style="padding:0.4rem 0;    color:var(--text-muted); font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.05em;">Endpoint</th>
+                        <th scope="col" style="padding:0.4rem 1rem; color:var(--text-muted); font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; text-align:right;">Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for method, path, label in shares_endpoints %}
+                <tr style="border-bottom:1px solid var(--border-color);">
+                    <td style="padding:0.6rem 1rem; width:60px;">
+                        <span style="background:{% if method == 'POST' %}#e8f5e9; color:#2e7d32{% else %}#e3f2fd; color:#1565c0{% endif %}; padding:0.15rem 0.5rem; border-radius:0.25rem; font-size:0.75rem; font-weight:600;">{{ method }}</span>
+                    </td>
+                    <td style="padding:0.6rem 0; font-family:monospace; color:var(--body-color); font-size:0.8rem;">{{ path }}</td>
+                    <td style="padding:0.6rem 1rem; color:var(--text-muted); text-align:right; white-space:nowrap;">{{ label }}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    {# Événements #}
+    <div class="card">
+        <div class="card-header">
+            <h4 style="margin:0; color:var(--primary-color);">Moteur Comptable</h4>
+            <small style="color:var(--text-muted);">/api/v1/events/</small>
+        </div>
+        <div class="card-body" style="padding: 0;">
+            <table style="width:100%; border-collapse:collapse; font-size:0.875rem;">
+                <thead>
+                    <tr style="border-bottom:2px solid var(--border-color); background:var(--primary-light);">
+                        <th scope="col" style="padding:0.4rem 1rem; color:var(--text-muted); font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; width:60px;">Méthode</th>
+                        <th scope="col" style="padding:0.4rem 0;    color:var(--text-muted); font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.05em;">Endpoint</th>
+                        <th scope="col" style="padding:0.4rem 1rem; color:var(--text-muted); font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; text-align:right;">Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for method, path, label in events_endpoints %}
+                <tr style="border-bottom:1px solid var(--border-color);">
+                    <td style="padding:0.6rem 1rem; width:60px;">
+                        <span style="background:{% if method == 'POST' %}#e8f5e9; color:#2e7d32{% else %}#e3f2fd; color:#1565c0{% endif %}; padding:0.15rem 0.5rem; border-radius:0.25rem; font-size:0.75rem; font-weight:600;">{{ method }}</span>
+                    </td>
+                    <td style="padding:0.6rem 0; font-family:monospace; color:var(--body-color); font-size:0.8rem;">{{ path }}</td>
+                    <td style="padding:0.6rem 1rem; color:var(--text-muted); text-align:right; white-space:nowrap;">{{ label }}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    {# Portails #}
+    <div class="card">
+        <div class="card-header">
+            <h4 style="margin:0; color:var(--primary-color);">Portails Client & Gestionnaire</h4>
+            <small style="color:var(--text-muted);">/api/v1/client/ + /manager/</small>
+        </div>
+        <div class="card-body" style="padding: 0;">
+            <table style="width:100%; border-collapse:collapse; font-size:0.875rem;">
+                <thead>
+                    <tr style="border-bottom:2px solid var(--border-color); background:var(--primary-light);">
+                        <th scope="col" style="padding:0.4rem 1rem; color:var(--text-muted); font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; width:60px;">Méthode</th>
+                        <th scope="col" style="padding:0.4rem 0;    color:var(--text-muted); font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.05em;">Endpoint</th>
+                        <th scope="col" style="padding:0.4rem 1rem; color:var(--text-muted); font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; text-align:right;">Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for method, path, label in portals_endpoints %}
+                <tr style="border-bottom:1px solid var(--border-color);">
+                    <td style="padding:0.6rem 1rem; width:60px;">
+                        <span style="background:{% if method == 'POST' %}#e8f5e9; color:#2e7d32{% else %}#e3f2fd; color:#1565c0{% endif %}; padding:0.15rem 0.5rem; border-radius:0.25rem; font-size:0.75rem; font-weight:600;">{{ method }}</span>
+                    </td>
+                    <td style="padding:0.6rem 0; font-family:monospace; color:var(--body-color); font-size:0.8rem;">{{ path }}</td>
+                    <td style="padding:0.6rem 1rem; color:var(--text-muted); text-align:right; white-space:nowrap;">{{ label }}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

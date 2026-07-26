@@ -1,0 +1,71 @@
+{% extends "pages/base.html" %}
+
+{% block title %}Changelog — COOP-CA AMIFOND{% endblock %}
+
+{% block content %}
+
+{# ── Breadcrumb ──────────────────────────────────────────────────────────────── #}
+<nav class="breadcrumb">
+    <a href="/">Accueil</a>
+    <span class="breadcrumb-sep">/</span>
+    <a href="/documentation">Documentation</a>
+    <span class="breadcrumb-sep">/</span>
+    <span>Changelog</span>
+</nav>
+
+<div class="layout-sidebar">
+
+    {# ── Changelog entries ─────────────────────────────────────────────────────── #}
+    <div>
+        <h2 style="margin-bottom: 2rem;">Historique des versions</h2>
+
+        {% for entry in changelog %}
+        <div class="changelog-entry">
+            <div style="display: flex; align-items: baseline; gap: 0.75rem; margin-bottom: 0.75rem; flex-wrap: wrap;">
+                <span class="version-tag">{{ entry.version }}</span>
+                <span class="release-date">{{ entry.date }}</span>
+                <span class="badge {{ entry.tag_class }}">{{ entry.tag }}</span>
+            </div>
+            <ul>
+                {% for change in entry.changes %}
+                <li>{{ change }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endfor %}
+    </div>
+
+    {# ── Sidebar ───────────────────────────────────────────────────────────────── #}
+    <div>
+        <div class="card" style="margin-bottom: 1.5rem;">
+            <div class="card-header">
+                <h4 style="margin: 0; color: var(--primary-color);">Versions</h4>
+            </div>
+            <div class="card-body" style="padding: 0.5rem 0;">
+                {% for entry in changelog %}
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 1rem; border-bottom: 1px solid var(--border-color); font-size: 0.875rem;">
+                    <span style="font-weight: 600; color: var(--primary-color);">{{ entry.version }}</span>
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <span style="color: var(--text-muted); font-size: 0.8rem;">{{ entry.date }}</span>
+                        <span class="badge {{ entry.tag_class }}">{{ entry.tag }}</span>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h4 style="margin: 0; color: var(--primary-color);">Liens utiles</h4>
+            </div>
+            <div class="card-body" style="font-size: 0.875rem; display: flex; flex-direction: column; gap: 0.5rem;">
+                <a href="/documentation" class="btn btn-outline-primary btn-sm">Documentation</a>
+                <a href="/modules" class="btn btn-outline-secondary btn-sm">Tous les modules</a>
+                <a href="/api/docs/swagger/" class="btn btn-white btn-sm">API Swagger</a>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

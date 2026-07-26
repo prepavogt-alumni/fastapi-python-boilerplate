@@ -1,0 +1,175 @@
+{% extends "pages/base.html" %}
+
+{% block title %}Accueil — COOP-CA AMIFOND{% endblock %}
+
+{% block content %}
+
+{# ── Hero ──────────────────────────────────────────────────────────────────── #}
+<div class="welcome" style="margin-bottom: 0; padding-bottom: 2.5rem;">
+
+    <div style="display: inline-block; background: var(--primary-light); color: var(--primary-color); font-size: 0.8rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 0.3rem 1rem; border-radius: 999px; margin-bottom: 1rem;">
+        Système de gestion de la coopérative d'épargne et de crédit
+    </div>
+
+    <h2 style="font-size: clamp(1.75rem, 4vw, 2.75rem); font-weight: 800; letter-spacing: -0.03em; margin: 0 0 0.75rem;">COOP-CA AMIFOND — Core Banking PC-EMF</h2>
+    <p style="color: var(--text-muted); font-size: 1.05rem; max-width: 640px; margin: 0 auto 1.5rem;">
+        Plan Comptable PC-EMF · COBAC · JWT · RBAC · DRF · Celery · OpenAPI 3.0.
+        Gérez votre coopérative en toute sécurité.
+    </p>
+
+    <div style="display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; margin-bottom: 2rem;">
+        <a href="/api/docs/swagger/" class="btn btn-primary btn-lg">Swagger UI</a>
+        <a href="/api/docs/redoc/"   class="btn btn-secondary">ReDoc</a>
+        <a href="/api/schema/"       class="btn btn-outline-primary">OpenAPI 3.0 (JSON)</a>
+        <a href="/apps" class="btn btn-outline-secondary">APIs Reference</a>
+        <a href="/admin/"            class="btn btn-white">Admin Django</a>
+    </div>
+
+    {# Search bar #}
+    <div style="position: relative; max-width: 560px; margin: 0 auto 1.5rem;">
+        <svg style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); width: 18px; height: 18px; color: var(--text-muted); pointer-events: none;" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+        </svg>
+        <input
+            id="hero-search"
+            type="text"
+            class="form-control"
+            placeholder="Rechercher un module, ex : « COBAC », « JWT », « crédit »…"
+            style="padding-left: 2.75rem; padding-right: 1rem; font-size: 1rem;"
+            autocomplete="off"
+        >
+    </div>
+
+    {# Tech tag pills — scrollable #}
+    <div style="overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 0.25rem;">
+        <div style="display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap; min-width: max-content; margin: 0 auto;">
+            {% for tag in tech_tags %}
+            <a href="/modules?q={{ tag|lower }}" class="tag-pill-sm">{{ tag }}</a>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{# ── Category cards ───────────────────────────────────────────────────────── #}
+<div style="background: var(--primary-light); margin: 0 -2rem; padding: 2.5rem 2rem;">
+    <div class="cards-grid cards-grid-4">
+
+        {# Modules Core #}
+        <a href="/modules" class="card" style="text-decoration: none; display: flex; flex-direction: column; align-items: center; text-align: center; padding: 1.75rem 1.25rem;">
+            <div style="width: 3.5rem; height: 3.5rem; border-radius: 50%; background: #e3f2fd; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem;">
+                <svg width="22" height="22" fill="none" stroke="#1565c0" stroke-width="2" viewBox="0 0 24 24">
+                    <ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v6c0 1.657 4.03 3 9 3s9-1.343 9-3V5"/><path d="M3 11v6c0 1.657 4.03 3 9 3s9-1.343 9-3v-6"/>
+                </svg>
+            </div>
+            <h3 style="font-size: 0.95rem; font-weight: 700; margin: 0 0 0.5rem; color: var(--body-color);">Modules Core</h3>
+            <p style="font-size: 0.82rem; color: var(--text-muted); margin: 0 0 1.25rem; flex: 1;">Architecture coopérative : utilisateurs, isolation par agence (branches), et historiques comptables.</p>
+            <span style="font-size: 0.8rem; font-weight: 600; color: var(--primary-color);">Explorer ({{ total_modules }})</span>
+        </a>
+
+        {# APIs & Intégrations #}
+        <a href="/apps" class="card" style="text-decoration: none; display: flex; flex-direction: column; align-items: center; text-align: center; padding: 1.75rem 1.25rem;">
+            <div style="width: 3.5rem; height: 3.5rem; border-radius: 50%; background: #e8f5e9; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem;">
+                <svg width="22" height="22" fill="none" stroke="#2e7d32" stroke-width="2" viewBox="0 0 24 24">
+                    <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+                </svg>
+            </div>
+            <h3 style="font-size: 0.95rem; font-weight: 700; margin: 0 0 0.5rem; color: var(--body-color);">APIs & Intégrations</h3>
+            <p style="font-size: 0.82rem; color: var(--text-muted); margin: 0 0 1.25rem; flex: 1;">Tous les endpoints REST — Auth, Enterprise, Tiers, Comptabilité, Trésorerie, Crédits, Parts Sociales.</p>
+            <span style="font-size: 0.8rem; font-weight: 600; color: #2e7d32;">Référence API →</span>
+        </a>
+
+        {# DevOps & Docker #}
+        <a href="/documentation" class="card" style="text-decoration: none; display: flex; flex-direction: column; align-items: center; text-align: center; padding: 1.75rem 1.25rem;">
+            <div style="width: 3.5rem; height: 3.5rem; border-radius: 50%; background: #f3e5f5; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem;">
+                <svg width="22" height="22" fill="none" stroke="#7b1fa2" stroke-width="2" viewBox="0 0 24 24">
+                    <rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/>
+                </svg>
+            </div>
+            <h3 style="font-size: 0.95rem; font-weight: 700; margin: 0 0 0.5rem; color: var(--body-color);">DevOps & Docker</h3>
+            <p style="font-size: 0.82rem; color: var(--text-muted); margin: 0 0 1.25rem; flex: 1;">Docker Compose, Nginx, GitHub Actions et configuration multi-environnement.</p>
+            <span style="font-size: 0.8rem; font-weight: 600; color: #7b1fa2;">Documentation →</span>
+        </a>
+
+        {# Changelog #}
+        <a href="/changelog" class="card" style="text-decoration: none; display: flex; flex-direction: column; align-items: center; text-align: center; padding: 1.75rem 1.25rem;">
+            <div style="width: 3.5rem; height: 3.5rem; border-radius: 50%; background: #fff3e0; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem;">
+                <svg width="22" height="22" fill="none" stroke="#e65100" stroke-width="2" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+                </svg>
+            </div>
+            <h3 style="font-size: 0.95rem; font-weight: 700; margin: 0 0 0.5rem; color: var(--body-color);">Changelog</h3>
+            <p style="font-size: 0.82rem; color: var(--text-muted); margin: 0 0 1.25rem; flex: 1;">Suivez l'évolution : migration e-commerce → microfinance, nouvelles fonctionnalités et conformité COBAC.</p>
+            <span style="font-size: 0.8rem; font-weight: 600; color: #e65100;">Voir les releases →</span>
+        </a>
+
+    </div>
+</div>
+
+{# ── Highlights ───────────────────────────────────────────────────────────── #}
+<div id="highlights-grid" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; margin-top: 2.5rem;">
+
+    {# Latest modules #}
+    <div>
+        <h3 style="font-size: 0.9rem; font-weight: 700; color: var(--body-color); margin: 0 0 1rem; text-transform: uppercase; letter-spacing: 0.05em;">Modules du Système</h3>
+        <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+            {% for m in latest_modules %}
+            <a href="/modules/{{m.slug}}" class="card" style="text-decoration: none; padding: 0.75rem 1rem;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.35rem;">
+                    <span style="font-size: 0.875rem; font-weight: 700; color: var(--primary-color); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ m.name }}</span>
+                    <span class="badge badge-neutral" style="flex-shrink: 0;">{{ m.version }}</span>
+                </div>
+                <p style="margin: 0; font-size: 0.78rem; color: var(--text-muted); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">{{ m.tagline }}</p>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+
+    {# Infra essentials #}
+    <div>
+        <h3 style="font-size: 0.9rem; font-weight: 700; color: var(--body-color); margin: 0 0 1rem; text-transform: uppercase; letter-spacing: 0.05em;">Essentiels Infrastructure</h3>
+        <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+            {% for item in infra_essentials %}
+            <div class="card" style="padding: 0.75rem 1rem;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.35rem;">
+                    <span style="font-size: 0.875rem; font-weight: 700; color: var(--primary-color);">{{ item.name }}</span>
+                    <span class="badge badge-neutral" style="flex-shrink: 0;">{{ item.tag }}</span>
+                </div>
+                <p style="margin: 0; font-size: 0.78rem; color: var(--text-muted);">{{ item.description }}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    {# Tech stack #}
+    <div>
+        <h3 style="font-size: 0.9rem; font-weight: 700; color: var(--body-color); margin: 0 0 1rem; text-transform: uppercase; letter-spacing: 0.05em;">Tech Stack</h3>
+        <div class="card" style="padding: 1.25rem; background: var(--primary-light);">
+            {% for tech in tech_stack %}
+            <div style="{% if not loop.first %}border-top: 1px solid var(--border-color); padding-top: 0.875rem; margin-top: 0.875rem;{% endif %}">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
+                    <span style="font-size: 0.875rem; font-weight: 700; color: var(--body-color);">{{ tech.name }}</span>
+                    <span style="font-size: 0.75rem; font-weight: 600; color: var(--primary-color);">{{ tech.version }}</span>
+                </div>
+                <p style="margin: 0; font-size: 0.78rem; color: var(--text-muted);">{{ tech.description }}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+(function () {
+    var input = document.getElementById('hero-search');
+    if (!input) return;
+    input.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' && this.value.trim()) {
+            globalThis.location.href = '/modules?q=' + encodeURIComponent(this.value.trim());
+        }
+    });
+})();
+</script>
+{% endblock %}

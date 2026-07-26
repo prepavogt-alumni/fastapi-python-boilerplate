@@ -22,23 +22,34 @@ from main import app
 def run_api_test():
     client = TestClient(app)
 
-    print("--- Test des Endpoints FastAPI ---")
+    print("--- Test des Endpoints FastAPI (API & HTML Pages) ---")
     
+    # Test API
     res_status = client.get("/api/status")
     print("GET /api/status -> Status Code:", res_status.status_code)
     print("  Réponse:", res_status.json())
 
-    res_post = client.post("/api/items?name=Article+Script+Test&value=500")
-    print("\nPOST /api/items -> Status Code:", res_post.status_code)
-    print("  Réponse:", res_post.json())
-
     res_data = client.get("/api/data")
     print("\nGET /api/data -> Status Code:", res_data.status_code)
-    print("  Réponse:", res_data.json())
 
-    res_root = client.get("/")
-    print("\nGET / (HTML Root) -> Status Code:", res_root.status_code)
-    print("  Header Content-Type:", res_root.headers.get("content-type"))
+    # Test HTML Pages
+    routes_to_test = [
+        ("/", "Accueil"),
+        ("/modules", "Modules"),
+        ("/modules/authentication", "Détail Module (authentication)"),
+        ("/apps", "APIs Reference"),
+        ("/design-system", "Design System"),
+        ("/documentation", "Documentation"),
+        ("/changelog", "Changelog"),
+        ("/demo", "Démo HTML initiale"),
+    ]
+
+    print("\n--- Validation des pages HTML ---")
+    for path, label in routes_to_test:
+        res = client.get(path)
+        status = "✅ 200 OK" if res.status_code == 200 else f"❌ {res.status_code}"
+        content_type = res.headers.get("content-type", "")
+        print(f"{status} | {label:<30} -> Path: {path:<25} ({content_type})")
 
 if __name__ == "__main__":
     run_api_test()
