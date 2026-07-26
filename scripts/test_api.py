@@ -22,7 +22,7 @@ from main import app
 def run_api_test():
     client = TestClient(app)
 
-    print("--- Test des Endpoints FastAPI (API & HTML Pages) ---")
+    print("--- Test des Endpoints FastAPI Boilerplate (API & HTML SSR) ---")
     
     # Test API
     res_status = client.get("/api/status")
@@ -37,6 +37,7 @@ def run_api_test():
         ("/", "Accueil"),
         ("/modules", "Modules"),
         ("/modules/authentication", "Détail Module (authentication)"),
+        ("/modules/database", "Détail Module (database)"),
         ("/apps", "APIs Reference"),
         ("/design-system", "Design System"),
         ("/documentation", "Documentation"),
@@ -49,7 +50,7 @@ def run_api_test():
         res = client.get(path)
         status = "✅ 200 OK" if res.status_code == 200 else f"❌ {res.status_code}"
         content_type = res.headers.get("content-type", "")
-        print(f"{status} | {label:<30} -> Path: {path:<25} ({content_type})")
+        print(f"{status} | {label:<32} -> Path: {path:<25} ({content_type})")
 
 if __name__ == "__main__":
     run_api_test()

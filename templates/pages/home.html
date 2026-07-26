@@ -1,6 +1,6 @@
 {% extends "pages/base.html" %}
 
-{% block title %}Accueil — COOP-CA AMIFOND{% endblock %}
+{% block title %}Accueil — {{ project_config.title|default('FastAPI Boilerplate') }}{% endblock %}
 
 {% block content %}
 
@@ -8,21 +8,19 @@
 <div class="welcome" style="margin-bottom: 0; padding-bottom: 2.5rem;">
 
     <div style="display: inline-block; background: var(--primary-light); color: var(--primary-color); font-size: 0.8rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 0.3rem 1rem; border-radius: 999px; margin-bottom: 1rem;">
-        Système de gestion de la coopérative d'épargne et de crédit
+        {{ project_config.description|default("Boilerplate de production Serverless") }}
     </div>
 
-    <h2 style="font-size: clamp(1.75rem, 4vw, 2.75rem); font-weight: 800; letter-spacing: -0.03em; margin: 0 0 0.75rem;">COOP-CA AMIFOND — Core Banking PC-EMF</h2>
+    <h2 style="font-size: clamp(1.75rem, 4vw, 2.75rem); font-weight: 800; letter-spacing: -0.03em; margin: 0 0 0.75rem;">{{ project_config.title|default("FastAPI + PostgreSQL") }}</h2>
     <p style="color: var(--text-muted); font-size: 1.05rem; max-width: 640px; margin: 0 auto 1.5rem;">
-        Plan Comptable PC-EMF · COBAC · JWT · RBAC · DRF · Celery · OpenAPI 3.0.
-        Gérez votre coopérative en toute sécurité.
+        {{ project_config.subtitle|default("FastAPI · PostgreSQL (Neon) · SQLAlchemy 2.0 · Vercel · OpenAPI 3.0") }}
     </p>
 
     <div style="display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; margin-bottom: 2rem;">
-        <a href="/api/docs/swagger/" class="btn btn-primary btn-lg">Swagger UI</a>
-        <a href="/api/docs/redoc/"   class="btn btn-secondary">ReDoc</a>
-        <a href="/api/schema/"       class="btn btn-outline-primary">OpenAPI 3.0 (JSON)</a>
+        <a href="/docs" class="btn btn-primary btn-lg">Swagger UI</a>
+        <a href="/redoc"   class="btn btn-secondary">ReDoc</a>
+        <a href="/openapi.json"       class="btn btn-outline-primary">OpenAPI 3.0 (JSON)</a>
         <a href="/apps" class="btn btn-outline-secondary">APIs Reference</a>
-        <a href="/admin/"            class="btn btn-white">Admin Django</a>
     </div>
 
     {# Search bar #}
@@ -34,7 +32,7 @@
             id="hero-search"
             type="text"
             class="form-control"
-            placeholder="Rechercher un module, ex : « COBAC », « JWT », « crédit »…"
+            placeholder="Rechercher un module, ex : « auth », « database », « status »…"
             style="padding-left: 2.75rem; padding-right: 1rem; font-size: 1rem;"
             autocomplete="off"
         >
@@ -62,7 +60,7 @@
                 </svg>
             </div>
             <h3 style="font-size: 0.95rem; font-weight: 700; margin: 0 0 0.5rem; color: var(--body-color);">Modules Core</h3>
-            <p style="font-size: 0.82rem; color: var(--text-muted); margin: 0 0 1.25rem; flex: 1;">Architecture coopérative : utilisateurs, isolation par agence (branches), et historiques comptables.</p>
+            <p style="font-size: 0.82rem; color: var(--text-muted); margin: 0 0 1.25rem; flex: 1;">Architecture modulaire : utilisateurs, sessions BDD, et composants réutilisables.</p>
             <span style="font-size: 0.8rem; font-weight: 600; color: var(--primary-color);">Explorer ({{ total_modules }})</span>
         </a>
 
@@ -74,7 +72,7 @@
                 </svg>
             </div>
             <h3 style="font-size: 0.95rem; font-weight: 700; margin: 0 0 0.5rem; color: var(--body-color);">APIs & Intégrations</h3>
-            <p style="font-size: 0.82rem; color: var(--text-muted); margin: 0 0 1.25rem; flex: 1;">Tous les endpoints REST — Auth, Enterprise, Tiers, Comptabilité, Trésorerie, Crédits, Parts Sociales.</p>
+            <p style="font-size: 0.82rem; color: var(--text-muted); margin: 0 0 1.25rem; flex: 1;">Tous les endpoints REST — Auth, Database, Monitoring, Web.</p>
             <span style="font-size: 0.8rem; font-weight: 600; color: #2e7d32;">Référence API →</span>
         </a>
 
@@ -86,7 +84,7 @@
                 </svg>
             </div>
             <h3 style="font-size: 0.95rem; font-weight: 700; margin: 0 0 0.5rem; color: var(--body-color);">DevOps & Docker</h3>
-            <p style="font-size: 0.82rem; color: var(--text-muted); margin: 0 0 1.25rem; flex: 1;">Docker Compose, Nginx, GitHub Actions et configuration multi-environnement.</p>
+            <p style="font-size: 0.82rem; color: var(--text-muted); margin: 0 0 1.25rem; flex: 1;">Docker Compose, Vercel Serverless, GitHub Actions et configuration multi-environnement.</p>
             <span style="font-size: 0.8rem; font-weight: 600; color: #7b1fa2;">Documentation →</span>
         </a>
 
@@ -98,7 +96,7 @@
                 </svg>
             </div>
             <h3 style="font-size: 0.95rem; font-weight: 700; margin: 0 0 0.5rem; color: var(--body-color);">Changelog</h3>
-            <p style="font-size: 0.82rem; color: var(--text-muted); margin: 0 0 1.25rem; flex: 1;">Suivez l'évolution : migration e-commerce → microfinance, nouvelles fonctionnalités et conformité COBAC.</p>
+            <p style="font-size: 0.82rem; color: var(--text-muted); margin: 0 0 1.25rem; flex: 1;">Suivez l'évolution du projet, les versions et les nouvelles fonctionnalités.</p>
             <span style="font-size: 0.8rem; font-weight: 600; color: #e65100;">Voir les releases →</span>
         </a>
 

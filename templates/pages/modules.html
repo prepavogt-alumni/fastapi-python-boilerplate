@@ -1,6 +1,6 @@
 {% extends "pages/base.html" %}
 
-{% block title %}Modules — COOP-CA AMIFOND{% endblock %}
+{% block title %}Modules — FastAPI Boilerplate{% endblock %}
 
 {% block content %}
 
@@ -17,7 +17,7 @@
         <div>
             <h2 style="margin: 0 0 0.25rem;">Modules Disponibles</h2>
             <p style="margin: 0; color: var(--text-muted); font-size: 0.9rem;">
-                <span id="results-count">{{ modules|length }}</span> modules — Core, Comptabilité, Opérations, Crédits, Capital, Portails
+                <span id="results-count">{{ modules|length }}</span> modules — Core, Data, Frontend, Ops
             </p>
         </div>
         {# Mobile filter toggle #}
@@ -38,7 +38,7 @@
             id="module-search"
             type="text"
             class="form-control"
-            placeholder="Rechercher un module, ex : « COBAC », « JWT », « crédit »…"
+            placeholder="Rechercher un module, ex : « Serverless », « JWT », « crédit »…"
             style="padding-left: 2.75rem; padding-right: 1rem; font-size: 1rem;"
             autocomplete="off"
         >

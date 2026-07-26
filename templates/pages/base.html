@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}AMIFOND{% endblock %}</title>
+    <title>{% block title %}FastAPI Boilerplate{% endblock %}</title>
     <link rel="stylesheet" href="/static/pages/css/django-design.css">
     {% block extra_css %}{% endblock %}
 </head>
@@ -14,10 +14,10 @@
             <div style="display: flex; justify-content: space-between; align-items: center;">
                 <div>
                     <h1 style="color: var(--white); background: none; -webkit-text-fill-color: var(--white);">
-                        COOP-CA AMIFOND
+                        {{ project_config.title|default('FastAPI + PostgreSQL') }}
                     </h1>
                     <p class="text-white" style="margin: 0; font-size: 1rem; opacity: 0.9;">
-                        Core Banking System · PC-EMF · FastAPI & Vercel
+                        {{ project_config.subtitle|default('Production Boilerplate · Neon Serverless · Vercel') }}
                     </p>
                 </div>
                 <div>
@@ -58,7 +58,7 @@
 
     <footer>
         <div class="container">
-            <p>&copy; 2026 COOP-CA AMIFOND. Tous droits réservés.</p>
+            <p>&copy; 2026 {{ project_config.title|default('FastAPI Boilerplate') }}. Tous droits réservés.</p>
         </div>
     </footer>
 

@@ -5,12 +5,11 @@ from db.database import engine, Base
 from db import models  # noqa: F401
 
 app = FastAPI(
-    title="COOP-CA AMIFOND + FastAPI",
-    description="FastAPI Core Banking System on Vercel",
-    version="2.5.0",
+    title="FastAPI + Postgres Boilerplate",
+    description="Production Serverless Boilerplate with Neon PostgreSQL and Vercel",
+    version="1.0.0",
 )
 
-# Mounting static files directory
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 if engine:

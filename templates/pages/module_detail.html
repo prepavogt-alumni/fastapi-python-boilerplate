@@ -1,6 +1,6 @@
 {% extends "pages/base.html" %}
 
-{% block title %}{{ module.name }} — COOP-CA AMIFOND{% endblock %}
+{% block title %}{{ module.name }} — FastAPI Boilerplate{% endblock %}
 
 {% block content %}
 
@@ -30,7 +30,7 @@
             </div>
         </div>
         <div>
-            <a href="/api/docs/swagger/" class="btn btn-primary">Voir dans Swagger</a>
+            <a href="/docs" class="btn btn-primary">Voir dans Swagger</a>
         </div>
     </div>
 </div>
@@ -99,9 +99,9 @@
         </div>
 
         <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
-            <a href="/api/docs/swagger/" class="btn btn-outline-primary btn-sm">Swagger UI</a>
-            <a href="/api/docs/redoc/" class="btn btn-outline-secondary btn-sm">ReDoc</a>
-            <a href="/api/schema/" class="btn btn-white btn-sm">OpenAPI JSON</a>
+            <a href="/docs" class="btn btn-outline-primary btn-sm">Swagger UI</a>
+            <a href="/redoc" class="btn btn-outline-secondary btn-sm">ReDoc</a>
+            <a href="/openapi.json" class="btn btn-white btn-sm">OpenAPI JSON</a>
         </div>
 
     </div>
