@@ -14,6 +14,15 @@ _DATABASE_ENDPOINTS = [
     ("GET",  "/api/status", "Vérifier la connexion à la base de données"),
 ]
 
+_CONTENT_ENDPOINTS = [
+    ("GET",  "/api/v1/content/posts/", "Lister tous les posts texte"),
+    ("POST", "/api/v1/content/posts/", "Créer un nouveau post texte"),
+    ("GET",  "/api/v1/content/audio/", "Lister les contenus audio / podcasts"),
+    ("POST", "/api/v1/content/audio/", "Créer / Uploader un contenu audio"),
+    ("GET",  "/api/v1/content/video/", "Lister les contenus vidéo / streaming"),
+    ("POST", "/api/v1/content/video/", "Créer / Uploader un contenu vidéo"),
+]
+
 _SYSTEM_ENDPOINTS = [
     ("GET",  "/", "Page d'accueil de l'application (SSR)"),
     ("GET",  "/modules", "Catalogue des modules fonctionnels"),
@@ -73,6 +82,8 @@ _TECH_TAGS = [
     "FastAPI",
     "PostgreSQL",
     "Neon Serverless",
+    "Upstash Redis",
+    "Vercel Blob",
     "SQLAlchemy 2.0",
     "Pydantic v2",
     "Jinja2 SSR",
@@ -86,12 +97,22 @@ _INFRA_ESSENTIALS = [
     {
         "name": "Point d'entrée modulaire",
         "tag": "Architecture",
-        "description": "Découpage propre en routers (`api/routes/`), couche de données (`db/`) et services (`services/`).",
+        "description": "Découpage propre par domaine/app (`app/pages`, `app/data`, `app/content`).",
     },
     {
         "name": "Neon PostgreSQL Serverless",
         "tag": "Database",
         "description": "Connexion sécurisée avec pooling PGBouncer, SSL et auto-création des tables SQLAlchemy.",
+    },
+    {
+        "name": "Upstash Redis (Vercel KV)",
+        "tag": "Cache",
+        "description": "Cache In-Memory Serverless via API REST HTTP native pour rate-limiting et réactivité < 10ms.",
+    },
+    {
+        "name": "Vercel Blob Storage",
+        "tag": "Storage",
+        "description": "Stockage d'objets cloud pour fichiers audio, vidéo et images avec adaptateurs StorageProvider.",
     },
     {
         "name": "Déploiement Vercel Zero-Config",
@@ -115,6 +136,16 @@ _TECH_STACK = [
         "name": "PostgreSQL (Neon)",
         "version": "17 Serverless",
         "description": "Base relationnelle Cloud haute disponibilité avec autoscaling et pooling d'instance.",
+    },
+    {
+        "name": "Upstash Redis",
+        "version": "Vercel KV",
+        "description": "Base Clé-Valeur Serverless ultra-rapide accessible en REST HTTP sans gestion de socket TCP.",
+    },
+    {
+        "name": "Vercel Blob",
+        "version": "v1.0",
+        "description": "Stockage d'objets cloud haute disponibilité sécurisé (Public / Private) pour fichiers médias.",
     },
     {
         "name": "SQLAlchemy",
@@ -153,7 +184,7 @@ _MODULES = [
         "maintainer": _CORE_TEAM,
         "compatibility": _COMPAT,
         "doc_intro": "Module d'authentification prêt pour la production incluant la validation des données d'entrée via Pydantic et la sécurisation des endpoints.",
-        "install_snippet": '# Prêt à l\'emploi dans api/routes/data.py et services/',
+        "install_snippet": '# Prêt à l\'emploi dans app/pages et app/content',
         "config_snippet": '# .env\nJWT_SECRET_KEY="your-secret-key"\nJWT_ALGORITHM="HS256"',
         "note": "Utilise l'en-tête Authorization: Bearer <token> pour sécuriser les appels API.",
     },
@@ -173,9 +204,29 @@ _MODULES = [
         "maintainer": _CORE_TEAM,
         "compatibility": _COMPAT,
         "doc_intro": "Gère la connexion à Neon PostgreSQL, le pool PGBouncer et la création automatique du schéma via SQLAlchemy.",
-        "install_snippet": 'from db.database import get_db\nfrom db import models',
-        "config_snippet": '# db/database.py\nengine = create_engine(DATABASE_URL, pool_pre_ping=True)',
+        "install_snippet": 'from app.core.database import get_db\nfrom app.pages import models',
+        "config_snippet": '# app/core/database.py\nengine = create_engine(DATABASE_URL, pool_pre_ping=True)',
         "note": "Pre-ping configuré pour gérer l'inactivité serverless sans déconnexion brute.",
+    },
+    {
+        "slug": "content-management",
+        "name": "Gestion de Contenu Multi-Médias",
+        "tagline": "Joined Table Inheritance · Posts · Audio · Vidéo",
+        "description": "Gestion modulaire et polymorphe de contenus textes, fichiers audio et vidéos avec adaptateurs de stockage (Local / Vercel Blob).",
+        "category": "Content",
+        "badge": _BADGE_ADV,
+        "badge_class": "badge-warning",
+        "version": "v1.0",
+        "endpoint_count": len(_CONTENT_ENDPOINTS),
+        "endpoints": _CONTENT_ENDPOINTS,
+        "models": ["Content", "PostContent", "AudioContent", "VideoContent"],
+        "status": _PROD_READY,
+        "maintainer": _CORE_TEAM,
+        "compatibility": _COMPAT,
+        "doc_intro": "Module de gestion de contenu utilisant l'héritage d'agrégats (Joined Table Inheritance) de SQLAlchemy pour étendre dynamiquement les types de médias.",
+        "install_snippet": 'from app.content.router import content_router\napp.include_router(content_router, prefix="/api/v1")',
+        "config_snippet": '# app/content/models.py\nclass Content(Base):\n    __tablename__ = "contents"\n    ...',
+        "note": "Supporte l'upload de médias via StorageProvider (Local / Vercel Blob).",
     },
     {
         "slug": "web-templates",
@@ -216,7 +267,7 @@ _MODULES = [
         "maintainer": _CORE_TEAM,
         "compatibility": _COMPAT,
         "doc_intro": "Fournit un endpoint `/api/status` consommable par des sondes Kubernetes, UptimeRobot ou Vercel Health Checks.",
-        "install_snippet": 'from api.routes import data\napp.include_router(data.router, prefix="/api")',
+        "install_snippet": 'from app.data.router import router as data_router\napp.include_router(data_router, prefix="/api")',
         "config_snippet": '@router.get("/status")\ndef get_status(db: Session = Depends(get_db)):\n    ...',
         "note": "Génère automatiquement les spécifications OpenAPI 3.0.",
     },
@@ -233,6 +284,7 @@ _CHANGELOG = [
         "changes": [
             "Lancement initial du boilerplate FastAPI + Neon PostgreSQL",
             "Architecture modulaire complète avec séparation des responsabilités",
+            "Intégration d'Upstash Redis (Vercel KV) & Vercel Blob Storage",
             "Intégration d'un Design System dynamique configurable via ORM",
             "Support du déploiement serverless sur Vercel avec pré-ping BDD",
             "Suite de scripts CLI de test et d'administration (seed, test_db, test_api)",

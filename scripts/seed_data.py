@@ -17,9 +17,10 @@ if env_file.exists():
                 os.environ.setdefault(k, v)
 
 from sqlalchemy.orm import sessionmaker
-from db.database import engine, Base
-from db import models
-from api.routes import pages_data as pd
+from app.core.database import engine, Base
+from app.pages import models as page_models
+from app.pages import data as pd
+from app.data.models import ItemModel
 
 def seed_database():
     if not engine:
@@ -35,7 +36,7 @@ def seed_database():
 
     try:
         # 1. Project Config
-        config = models.ProjectConfig(
+        config = page_models.ProjectConfig(
             title="FastAPI + PostgreSQL",
             subtitle="Production Boilerplate · Neon Serverless · Vercel",
             description="Boilerplate moderne et modulaire avec FastAPI, Neon PostgreSQL et Jinja2 SSR",
@@ -43,73 +44,77 @@ def seed_database():
             tech_tags=pd._TECH_TAGS
         )
         db.add(config)
-        print("✅ Configuration du projet insérée.")
 
         # 2. Design Tokens
-        for name, val, lbl in pd._COLORS_BRAND:
-            db.add(models.DesignToken(category="brand", name=name, value=val, label=lbl))
-        for name, val, lbl in pd._COLORS_FUNCTIONAL:
-            db.add(models.DesignToken(category="functional", name=name, value=val, label=lbl))
-        for name, val, lbl in pd._COLORS_SURFACE:
-            db.add(models.DesignToken(category="surface", name=name, value=val, label=lbl))
+        for name, val, label in pd._COLORS_BRAND:
+            db.add(page_models.DesignToken(category="brand", name=name, value=val, label=label))
+        for name, val, label in pd._COLORS_FUNCTIONAL:
+            db.add(page_models.DesignToken(category="functional", name=name, value=val, label=label))
+        for name, val, label in pd._COLORS_SURFACE:
+            db.add(page_models.DesignToken(category="surface", name=name, value=val, label=label))
         for name, val in pd._SHADOWS:
-            db.add(models.DesignToken(category="shadow", name=name, value=val, label=""))
-        for name, val, lbl in pd._SPACINGS:
-            db.add(models.DesignToken(category="spacing", name=name, value=val, label=lbl))
-        print("✅ Tokens du Design System insérés (Couleurs, Ombres, Espacements).")
+            db.add(page_models.DesignToken(category="shadow", name=name, value=val))
+        for name, val, label in pd._SPACINGS:
+            db.add(page_models.DesignToken(category="spacing", name=name, value=val, label=label))
 
-        # 3. Tech Stack & Infra
-        for t in pd._TECH_STACK:
-            db.add(models.TechStackItem(name=t["name"], version=t["version"], description=t["description"]))
-        print("✅ Pile technique (Tech Stack) insérée.")
-
-        for inf in pd._INFRA_ESSENTIALS:
-            db.add(models.InfraItem(name=inf["name"], tag=inf["tag"], description=inf["description"]))
-        print("✅ Éléments d'infrastructure insérés.")
-
-        # 4. Modules & Endpoints
-        for m in pd._MODULES:
-            mod_obj = models.Module(
-                slug=m["slug"],
-                name=m["name"],
-                tagline=m["tagline"],
-                description=m["description"],
-                category=m["category"],
-                badge=m["badge"],
-                badge_class=m["badge_class"],
-                version=m["version"],
-                status=m["status"],
-                maintainer=m["maintainer"],
-                compatibility=m["compatibility"],
-                doc_intro=m["doc_intro"],
-                install_snippet=m["install_snippet"],
-                config_snippet=m["config_snippet"],
-                note=m["note"],
+        # 3. Modules & Endpoints
+        for mdata in pd._MODULES:
+            mod = page_models.Module(
+                slug=mdata["slug"],
+                name=mdata["name"],
+                tagline=mdata["tagline"],
+                description=mdata["description"],
+                category=mdata["category"],
+                badge=mdata["badge"],
+                badge_class=mdata["badge_class"],
+                version=mdata["version"],
+                status=mdata["status"],
+                maintainer=mdata["maintainer"],
+                compatibility=mdata["compatibility"],
+                doc_intro=mdata["doc_intro"],
+                install_snippet=mdata["install_snippet"],
+                config_snippet=mdata["config_snippet"],
+                note=mdata["note"]
             )
-            db.add(mod_obj)
+            db.add(mod)
             db.flush()
 
-            for method, path, summary in m.get("endpoints", []):
-                db.add(models.Endpoint(module_id=mod_obj.id, method=method, path=path, summary=summary))
-        print(f"✅ {len(pd._MODULES)} Modules fonctionnels et leurs endpoints insérés.")
+            for method, path, summary in mdata["endpoints"]:
+                db.add(page_models.Endpoint(
+                    module_id=mod.id,
+                    category=mod.category,
+                    method=method,
+                    path=path,
+                    summary=summary
+                ))
 
-        # 5. Changelog Releases
-        for rel in pd._CHANGELOG:
-            db.add(models.ChangelogRelease(
-                version=rel["version"],
-                date_str=rel["date"],
-                tag=rel["tag"],
-                tag_class=rel["tag_class"],
-                changes=rel["changes"]
+        # 4. Changelog
+        for cdata in pd._CHANGELOG:
+            db.add(page_models.ChangelogRelease(
+                version=cdata["version"],
+                date_str=cdata["date"],
+                tag=cdata["tag"],
+                tag_class=cdata["tag_class"],
+                changes=cdata["changes"]
             ))
-        print(f"✅ {len(pd._CHANGELOG)} Versions du Changelog insérées.")
+
+        # 5. Tech Stack & Infra
+        for ts in pd._TECH_STACK:
+            db.add(page_models.TechStackItem(name=ts["name"], version=ts["version"], description=ts["description"]))
+        for infra in pd._INFRA_ESSENTIALS:
+            db.add(page_models.InfraItem(name=infra["name"], tag=infra["tag"], description=infra["description"]))
+
+        # 6. Sample Items
+        db.add(ItemModel(name="Sample Item 1 (Database)", value=100))
+        db.add(ItemModel(name="Sample Item 2 (Database)", value=200))
+        db.add(ItemModel(name="Sample Item 3 (Database)", value=300))
 
         db.commit()
-        print("\n🎉 BASE DE DONNÉES RÉINITIALISÉE ET REPEUPLÉE AVEC SUCCÈS !")
+        print("✅ Base de données initialisée et alimentée avec succès !")
 
     except Exception as e:
         db.rollback()
-        print("❌ Erreur lors du seeding:", e)
+        print("❌ Erreur durant le seeding :", e)
     finally:
         db.close()
 

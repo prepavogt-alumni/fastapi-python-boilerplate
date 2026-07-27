@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
-from db import models
-from api.routes import pages_data as pd
+from app.pages import models
+from app.pages import data as pd
 
 def get_project_config(db: Session = None):
     if db is not None:

@@ -4,9 +4,9 @@ from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 
-from db.database import get_db
-from services import pages_service as ps
-from api.routes import pages_data as pd
+from app.core.database import get_db
+from app.pages import services as ps
+from app.pages import data as pd
 
 router = APIRouter()
 

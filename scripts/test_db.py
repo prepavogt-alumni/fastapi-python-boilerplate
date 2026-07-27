@@ -18,8 +18,8 @@ if env_file.exists():
                 k, v = line.split('=', 1)
                 os.environ.setdefault(k, v)
 
-from db.database import engine, Base
-from db.models import ItemModel
+from app.core.database import engine, Base
+from app.data.models import ItemModel
 
 def run_db_test():
     print("--- Test de connexion Neon PostgreSQL ---")

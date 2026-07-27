@@ -1,12 +1,8 @@
-import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
+from app.core.config import settings
 
-# URL PostgreSQL Neon fournie par l'environnement Vercel
-DATABASE_URL = os.getenv("DATABASE_URL") or os.getenv("POSTGRES_URL")
-
-if DATABASE_URL and DATABASE_URL.startswith("postgres://"):
-    DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
+DATABASE_URL = settings.sqlalchemy_database_url
 
 # Connexion sécurisée avec pre-ping pour les environnements Serverless / Neon
 engine = create_engine(
